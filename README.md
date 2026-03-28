@@ -54,7 +54,7 @@ Runs the deterministic simulation loop.
 
 ## Iteration path
 
-## Iteration 8 — Octagon Example Blueprint
+## Iteration 8 — Blueprint Prototyping
 
 ![Iteration 8 Example World](images/Image1.jpeg)
 
