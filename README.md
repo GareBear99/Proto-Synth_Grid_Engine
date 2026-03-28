@@ -109,7 +109,7 @@ The blueprint is not an accessory. It is the actual authority.
 
 ## Current iterations
 
-## Iteration 8 — Example World
+## Iteration 8 — Octagon Example Blueprint
 
 ![Iteration 8 Example World](images/Image1.jpeg)
 
