@@ -4,89 +4,57 @@
   <img src="geometry-synth-banner.svg" alt="Synth Grid Engine animated geometry banner" width="100%" />
 </p>
 
+<p align="center"><strong>Deterministic 2D simulation. Projected to feel visually 3D.</strong><br><strong>Blueprint geometry becomes computation.</strong></p>
+
 <p align="center">
-  <strong>Deterministic 2D simulation.</strong><br/>
-  <strong>Projected to feel visually 3D.</strong><br/>
-  <strong>Blueprint geometry becomes computation.</strong>
+  <a href="https://github.com/GareBear99/Synth-Grid-Engine/issues"><img alt="Issues" src="https://img.shields.io/github/issues/GareBear99/Synth-Grid-Engine?style=for-the-badge"></a>
+  <a href="https://github.com/GareBear99/Synth-Grid-Engine/discussions"><img alt="Discussions" src="https://img.shields.io/github/discussions/GareBear99/Synth-Grid-Engine?style=for-the-badge"></a>
+  <a href="https://github.com/GareBear99/Synth-Grid-Engine/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/GareBear99/Synth-Grid-Engine?style=for-the-badge"></a>
+  <a href="https://github.com/GareBear99/Synth-Grid-Engine/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/GareBear99/Synth-Grid-Engine?style=for-the-badge"></a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-experimental-7c3aed?style=for-the-badge" alt="Status: Experimental" />
-  <img src="https://img.shields.io/badge/runtime-browser-2563eb?style=for-the-badge" alt="Runtime: Browser" />
-  <img src="https://img.shields.io/badge/server-none-db2777?style=for-the-badge" alt="Server: None" />
-  <img src="https://img.shields.io/badge/sim-deterministic-16a34a?style=for-the-badge" alt="Sim: Deterministic" />
+  <a href="https://github.com/sponsors/GareBear99"><img alt="GitHub Sponsors" src="https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors"></a>
+  <a href="https://www.buymeacoffee.com/YOUR_HANDLE"><img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=000000"></a>
 </p>
 
-<p align="center">
-  <a href="#overview">Overview</a> •
-  <a href="#features">Features</a> •
-  <a href="#screenshots">Screenshots</a> •
-  <a href="#controls">Controls</a> •
-  <a href="#run-local">Run Local</a> •
-  <a href="#support">Support</a> •
-  <a href="#community">Community</a>
-</p>
+## What this is
 
----
+Synth Grid Engine is a math-first world runtime where shell geometry, module layout, and deterministic execution all share the same blueprint-driven foundation.
 
-## Overview
+Instead of treating geometry as decoration, the engine treats it as structure, storage, routing, and execution space. The world itself becomes a programmable surface.
 
-Synth Grid Engine is a **math-first world runtime** where shell geometry, module layout, and deterministic execution all share the same blueprint-driven foundation.
+This project is built around a **deterministic 2D simulation core** with a **visually 3D projection layer**. That keeps the runtime lightweight, reproducible, and portable while still delivering a high-contrast synthwave spatial feel.
 
-Instead of treating geometry as decoration, this project treats geometry as **structure**, **storage**, and **execution space**.
+## Core idea
 
-The world itself becomes a programmable environment.
+The engine loads blueprints that define how the world behaves.
 
-### Core model
+### 1) Shell Blueprint
+Defines the geometry of the world.
 
-- **Shell Blueprints** define world geometry
-- **Module Blueprints** inject systems into the shell
-- **Execution Layer** runs deterministic simulation logic
-- **Rendering Layer** projects the simulation to feel visually 3D
+### 2) Module Blueprints
+Attach systems into the shell.
+
+### 3) Execution Layer
+Runs the deterministic simulation loop.
 
 **Geometry = storage**  
 **Movement = computation**  
 **Entities = executors**
 
----
+## Why it is different
 
-## Why this is different
+- **Math-first, not graphics-first**
+- **Deterministic worlds from seed and blueprint state**
+- **2D simulation core with visually 3D presentation**
+- **Low CPU footprint on older hardware**
+- **Modular runtime architecture instead of a fixed one-off application**
+- **Designed as an engine surface for future systems, not just a demo**
 
-Most engines begin with rendering, then layer behavior on top.
+## Iteration path
 
-Synth Grid Engine starts from the opposite direction:
-
-- simulation first
-- geometry first
-- determinism first
-- rendering as projection, not authority
-
-That makes it useful for:
-
-- reproducible world states
-- low-weight simulation on old hardware
-- modular runtime experiments
-- blueprint-driven systems design
-- future shell/module ecosystems
-
----
-
-## Features
-
-- Deterministic 2D simulation core
-- Visually 3D projection style
-- Blueprint-defined shell structures
-- Modular attachment system for runtime components
-- Seed-based world reproducibility
-- Low overhead browser execution
-- Debug-friendly architecture
-- No server required
-
----
-
-## Screenshots
-
-### Iteration 8 — Octagon Example Blueprint
+## Iteration 8 — Example World
 
 ![Iteration 8 Example World](images/Image1.jpeg)
 
@@ -94,13 +62,11 @@ Included example blueprint: `blueprint_octagon.json`
 
 Builds an octagon shell structure where modules can attach.
 
-### Iteration 9 — Game Engine Prototype
+## Iteration 9 — Game Engine Prototype
 
 ![Synth Grid Engine Prototype](images/Image2.jpeg)
 
-Prototype showing the deterministic shell simulation projected into a visually 3D-feeling environment.
-
-Demonstrates:
+This prototype demonstrates:
 
 - blueprint shell generation
 - cube-grid projection mapping
@@ -108,86 +74,61 @@ Demonstrates:
 - modular system attachment
 - spatial execution visualization
 
-### Iteration 10 — Synth Grid Engine
+The runtime supports loading:
 
-![Synth Grid Engine](images/Image3.jpeg)
+- Shell Blueprints
+- Ship Modules
+- Scanner Modules
+- HUD Modules
+
+## Iteration 10 — Synth Grid Engine
+
+![Iteration 10 Demo](images/Image3.jpeg)
 
 A blueprint-driven simulation shell where geometry becomes computation.
 
----
+This engine is experimental by design, but the direction is serious: modular world runtime, blueprint-authored structure, deterministic simulation, and portable execution.
 
-## Architecture
+## Math-first simulation
 
-### 1. Shell Blueprint
-Defines the shape of the world.
+All core logic runs in deterministic 2D vector space.
 
-### 2. Module Blueprints
-Attach behavior and systems into that world.
-
-### 3. Execution Layer
-Runs the deterministic simulation loop.
-
-### 4. Projection Layer
-Transforms 2D simulation state into a visually 3D presentation.
-
----
-
-## Math-First Simulation
-
-The engine is **math-first, not graphics-first**.
-
-All simulation logic runs in deterministic 2D vector space. Rendering then projects that simulation into a visually 3D environment using techniques such as:
+The render layer then projects that simulation into a visually 3D environment using techniques like:
 
 - perspective scaling
-- layered sprites
+- layered sprite depth
 - cube-grid projection
 - depth shading
+- shell geometry overlays
 
-This gives the project several advantages:
-
-- extremely low CPU usage
-- deterministic reproducibility
-- simple debugging and validation
-- broad hardware compatibility
-
-Even older machines can run the simulation cleanly because the project avoids the weight of a traditional 3D engine.
-
----
+That gives the engine a 3D-feeling spatial surface without requiring a heavyweight full-3D stack.
 
 ## Controls
 
 | Key | Action |
 |---|---|
-| WASD | Move master control |
-| Mouse | Aim vector |
-| C | Toggle reticle |
-| ` | Toggle debug overlay |
-| R | Reset |
+| `W A S D` | Move master control |
+| `Mouse` | Aim vector |
+| `C` | Toggle reticle |
+| `` ` `` | Toggle debug overlay |
+| `R` | Reset |
 
----
+## Running the engine
 
-## Run Local
-
-1. Clone or download the repository
-2. Keep the folder structure intact
-3. Open `index.html` in a browser
+1. Download or clone the repository.
+2. Open `index.html` in a browser.
+3. Load blueprints through the runtime UI.
 
 No server required.
 
----
+## Recommended load order
 
-## Loading Blueprints
-
-Upload blueprints through the runtime UI.
-
-Recommended order:
-
-1. Shell blueprint
-2. Ship module
-3. Scanner module
+1. Shell blueprint  
+2. Ship module  
+3. Scanner module  
 4. HUD module (optional)
 
-### Example module blueprint
+## Example module blueprint
 
 ```json
 {
@@ -199,120 +140,45 @@ Recommended order:
 }
 ```
 
----
-
-## Roadmap
-
-- Expand shell blueprint vocabulary
-- Improve module interoperability
-- Extend scanner and HUD systems
-- Formalize blueprint validation
-- Add richer debug and visualization tooling
-- Grow toward full Synth Grid runtime ecosystem
-
----
-
 ## Contributing
 
-Contributions, experiments, architecture suggestions, and bug reports are welcome.
+Ideas, bug reports, architecture suggestions, and module experiments are welcome.
 
-### Best ways to contribute
+- Open an **Issue** for bugs or concrete work
+- Use **Discussions** for ideas, design direction, or architecture talk
+- Open a **Pull Request** for improvements
 
-- Open an **Issue** for bugs or feature requests
-- Start a **Discussion** for ideas, architecture, and direction
-- Submit a **Pull Request** for improvements
-- Star the repo to help surface the project
-- Share the repo with people into engine architecture, simulation, or procedural systems
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before sending major changes.
 
----
+## Support the project
 
-## Community
+If you want to help push this engine further:
 
-Use these repo surfaces to help the project grow:
+- **GitHub Sponsors:** `https://github.com/sponsors/GareBear99`
+- **Buy Me a Coffee:** replace the placeholder in this README and in `.github/FUNDING.yml`
 
-- **Issues** → bug reports, tasks, feature requests
-- **Discussions** → architecture talk, ideas, showcases, Q&A
-- **Pull Requests** → direct improvements
-- **Releases** → versioned drops when milestones are reached
-- **Projects** → roadmap and task tracking, if enabled
-- **Wiki** → long-form engine documentation, if enabled
+Support helps with development time, testing, visuals, documentation, and future releases.
 
-### Suggested promotion setup for the repo
+## Community links
 
-- Enable **Discussions** in repo settings
-- Add **issue templates** for bug report / feature request / question
-- Add a **pull request template**
-- Pin a strong **Discussion welcome thread**
-- Create a first **Release** once the README + visuals are stable
-- Add repo **topics** like `simulation`, `engine`, `procedural`, `browser`, `deterministic`, `blueprint`, `javascript`
+- **Issues:** `https://github.com/GareBear99/Synth-Grid-Engine/issues`
+- **Discussions:** `https://github.com/GareBear99/Synth-Grid-Engine/discussions`
+- **Pull Requests:** `https://github.com/GareBear99/Synth-Grid-Engine/pulls`
+- **Releases:** `https://github.com/GareBear99/Synth-Grid-Engine/releases`
 
----
+## Repo setup checklist
 
-## Support
+Use these on GitHub after uploading these files:
 
-If you want to support the project directly, add your support links here.
-
-### GitHub Sponsors
-
-```md
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors)](https://github.com/sponsors/YOUR_GITHUB_USERNAME)
-```
-
-### Buy Me a Coffee
-
-```md
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=000000)](https://www.buymeacoffee.com/YOUR_HANDLE)
-```
-
-### Example support block for this README
-
-Replace the placeholders above, then drop this into the top section if you want the buttons visible immediately:
-
-```md
-<p align="center">
-  <a href="https://github.com/sponsors/YOUR_GITHUB_USERNAME">
-    <img src="https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors" alt="Sponsor on GitHub" />
-  </a>
-  <a href="https://www.buymeacoffee.com/YOUR_HANDLE">
-    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=000000" alt="Buy Me a Coffee" />
-  </a>
-</p>
-```
-
----
-
-## Repo Links
-
-Once enabled, you can also add direct links like these near the top of the README:
-
-```md
-- [Issues](../../issues)
-- [Discussions](../../discussions)
-- [Pull Requests](../../pulls)
-- [Releases](../../releases)
-```
-
-Or as a centered block:
-
-```md
-<p align="center">
-  <a href="../../issues">Issues</a> •
-  <a href="../../discussions">Discussions</a> •
-  <a href="../../pulls">Pull Requests</a> •
-  <a href="../../releases">Releases</a>
-</p>
-```
-
----
+- Enable **Issues**
+- Enable **Discussions**
+- Add repo **Topics**
+- Add a **Description** and **Website** if relevant
+- Upload a strong **Social Preview Image**
+- Create the first **Release**
+- Pin one **Discussion** for roadmap / ideas
+- Add repo **Topics** like `html5`, `javascript`, `deterministic-simulation`, `synthwave`, `game-engine`, `procedural`, `2d`, `3d-illusion`
 
 ## License
 
-Add your preferred license here.
-
-If this is still experimental, even a simple placeholder is better than leaving it ambiguous.
-
----
-
-## Notes
-
-This project is part of a broader direction exploring deterministic simulation, modular runtime systems, and geometry-driven execution environments.
+Add your preferred license file before public promotion. If you are not ready to fully open-source usage rights, decide that before pushing broader visibility.
