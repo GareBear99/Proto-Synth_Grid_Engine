@@ -173,8 +173,6 @@ Support helps with development time, testing, visuals, documentation, and future
 
 ## Repo setup checklist
 
-Use these on GitHub after uploading these files:
-
 - Enable **Issues**
 - Enable **Discussions**
 - Add repo **Topics**
@@ -186,4 +184,3 @@ Use these on GitHub after uploading these files:
 
 ## License
 
-Add your preferred license file before public promotion. If you are not ready to fully open-source usage rights, decide that before pushing broader visibility.
