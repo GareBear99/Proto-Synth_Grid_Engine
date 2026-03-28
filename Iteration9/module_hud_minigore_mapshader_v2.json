@@ -1,0 +1,14 @@
+{
+  "moduleType": "hud",
+  "id": "HUD_MINIGORE_MAPSHADER_V2",
+  "style": "default",
+  "config": {
+    "showInspector": true
+  },
+  "script": "// Optional hook object you can define:\n// hooks = { onFrame(api, config, state){...}, draw(api, config, state, ctx){...} }\n// For safety and simplicity, the core UI still renders; hooks can add extra lines.\nhooks = {\n  onFrame(api, config, state){\n    // state.custom = ...\n  }\n};",
+  "name": "Minigore Map Shader HUD (v2)",
+  "version": "2.0.0",
+  "hooks": {
+    "draw": "(function(){\n  try{\n    // subtle dither/scanline overlay\n    ctx.save();\n    ctx.globalCompositeOperation='overlay';\n    ctx.globalAlpha = 0.08;\n    ctx.fillStyle = 'rgba(255,255,255,1)';\n    for(let y=0;y<H;y+=3){ ctx.fillRect(0,y,W,1); }\n    ctx.restore();\n\n    // mini vignette\n    ctx.save();\n    ctx.globalCompositeOperation='multiply';\n    const g = ctx.createRadialGradient(W*0.5,H*0.5, Math.min(W,H)*0.25, W*0.5,H*0.5, Math.min(W,H)*0.62);\n    g.addColorStop(0,'rgba(255,255,255,1)');\n    g.addColorStop(1,'rgba(0,0,0,0.55)');\n    ctx.fillStyle=g;\n    ctx.fillRect(0,0,W,H);\n    ctx.restore();\n\n    // watermark\n    ctx.save();\n    ctx.globalAlpha = 0.90;\n    ctx.fillStyle = 'rgba(120,255,255,0.9)';\n    ctx.font = (12*devicePixelRatio)+'px ui-monospace, Menlo, Consolas, monospace';\n    ctx.fillText('MINIGORE MAP SHADER \u2022 ACTIVE (V2)', 16*devicePixelRatio, 86*devicePixelRatio);\n    ctx.restore();\n  }catch(e){}\n})();"
+  }
+}
