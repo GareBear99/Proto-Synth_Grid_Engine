@@ -1,0 +1,5 @@
+v21 — spawn-center probe visibility fix
+- canonical spawn now resolves from eye/apex-facing route tile instead of blueprint origin sample
+- probe render now home-locks to spawn tile when Free Roam is off or mode is SPAWN/SETTLED_HOME
+- panel sublabel now shows @CENTER when probe is in spawn-centered home mode
+- fixes case where Show Probe was on but probe appeared absent/down-shell while spawn state reported SPAWN

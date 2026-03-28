@@ -1,0 +1,8 @@
+v15 — Probe Action Queue + Visible Route Authority
+
+- Added authoritative probe path highlight locked to real route tiles
+- Added single active-action doctrine for probe movement/execution
+- Added queue sizing up to 10 actions
+- Free Roam OFF now resolves idle behavior to RETURN_HOME / SETTLED_HOME only
+- Probe panel now shows active action state and queue count
+- Overlay now reports probe active state

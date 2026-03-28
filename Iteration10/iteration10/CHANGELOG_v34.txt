@@ -1,0 +1,33 @@
+Synth Grid Engine — CHANGELOG v34
+
+Milestone: Full Tile Synth Graph + Seam Authority + Probe Compiler Domain
+
+Added
+- Full-globe synth graph for every addressable cube-sphere tile (6 * (N+1)^2 nodes).
+- Seam-safe adjacency generation using sphere perturbation + face remap, with seam diagnostics.
+- Globe synth domain now defaults as the active matrix compute substrate.
+- Domain toggle (0) between legacy route-shell synth and full-globe synth.
+- Probe/compiler actions now target the reticle tile in the selected synth domain.
+- Synth overlay now reports node count, seam links, seam warnings, target tile, and active domain.
+- Corruption/overload state added as early failure-law groundwork.
+
+Preserved
+- v33 route-shell synth remains available as a legacy domain.
+- Existing scanner/probe visuals, home tripod behavior, and render/truth separation remain intact.
+
+Controls
+- 1 generator
+- 2 relay
+- 3 memory
+- 4 router
+- 5 assembler
+- G compile selected role at reticle tile
+- X pulse current node
+- K auto-seed current domain
+- 0 toggle synth domain (route / globe)
+- M toggle synth overlay
+- Backspace clear current node
+
+Notes
+- This is the first pass where the matrix can compute beyond the shell route.
+- Next expected step after v34: blueprint semantic compiler + autonomous Synth executor + save/load receipts.

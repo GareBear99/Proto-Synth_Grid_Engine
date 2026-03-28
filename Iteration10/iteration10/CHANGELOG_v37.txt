@@ -1,0 +1,18 @@
+Synth Grid Engine v37 — corruption ecology + embodied builder + audit export
+
+Added
+- live corruption ecology: overload/corrupt nodes now spread corruption into neighboring nodes
+- memory and assembler nodes provide passive resistance / local cleanup
+- embodied builder visual: executor now renders as a directed synth body with path lines
+- containment pulse at reticle (C)
+- audit export JSON (R)
+- two new blueprint grammars: spire, sanctum
+
+Fixed
+- blueprint compile bug in v36 where undefined role/neighbors references could break compile flow
+- synth state counts now include corruption/overload tallies
+
+Controls
+- C = containment pulse at reticle
+- R = export synth audit JSON
+- B = cycle semantic/lattice/forge/spire/sanctum

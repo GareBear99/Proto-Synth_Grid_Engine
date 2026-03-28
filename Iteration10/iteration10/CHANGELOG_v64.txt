@@ -1,0 +1,6 @@
+v64 — Probe Tripod Restore
+- Removed oversized HOME PROBE TEST debug card from normal runtime display.
+- Removed duplicate PROBE HOME ACTIVE badge/absolute overlay from normal runtime display.
+- Restored actual tripod rig rendering even while the probe is in spawn/home-locked state.
+- Suppressed duplicate banner-style home marker so the canonical probe-home visual is the tripod dock/world rig.
+- Updated runtime version string to v64_probe_tripod_restore.

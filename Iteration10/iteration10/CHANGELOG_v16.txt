@@ -1,0 +1,7 @@
+v16 - Probe queue visibility + action-state panel
+
+- Added visible ACTION QUEUE inside the purple Probe Settings panel
+- Queue now renders up to 10 entries with live per-item state chips
+- Active item now clearly shows current action state (ROUTING / EXECUTING / RETURNING / SETTLED_HOME)
+- Idle/no-queue state now explicitly explains RETURN_HOME / SETTLED_HOME doctrine when Free Roam is off
+- Kept queue render read-only so it does not mutate authority logic

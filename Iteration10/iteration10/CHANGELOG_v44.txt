@@ -1,0 +1,11 @@
+v44 — Autowrap Intent Validation + Authority Receipts + Module Manifest Checks
+
+- Added intent registry / data-intent binding for topbar, probe, validator, bookmark, eye, module, and blueprint surfaces.
+- Added intent gate validation against boot/build lifecycle states.
+- Added intent receipts (allow / deny / error) so meaningful UI actions produce authority records.
+- Improved autowrap metadata with inferred intent + owner labeling.
+- Improved target description to reduce generic unknown/target labels in validator logs.
+- Added module manifest validation (schemaVersion, expected moduleType, capabilities/checksum summary).
+- Added receipts for module load success/read error/parse error.
+- Wrapped blueprint upload open/file flow, reset, reticle center, presentation toggle, debug overlay, and validator download with intent-aware wrappers.
+- Kept existing runtime scroll hardening and local scroll ownership behavior intact.

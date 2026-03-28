@@ -1,0 +1,2 @@
+v27
+Fixed actual home probe visibility bug: removed undefined roundRect call from home overlay draw path, added safe pathRoundRect helper, and added extra forced center marker so home probe visibility is unmistakable.

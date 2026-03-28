@@ -1,0 +1,8 @@
+v54 — schema lock + rotating recovery autosaves + modular helper split
+
+- added arc_schema_v54.js for strict tile blueprint import normalization
+- added arc_recovery_v54.js for rotating recovery autosave slots and fallback restore
+- tile blueprint import now rejects malformed payloads and logs failure receipts
+- survey persistence now writes recovery slots alongside primary save
+- load path now falls back to latest recovery slot when primary save is missing
+- added recovery slot cycle / restore hotkeys: [ ] and \\n- synth runtime version bumped to v54_recovery_schema_locked

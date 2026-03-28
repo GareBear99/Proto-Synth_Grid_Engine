@@ -1,0 +1,1 @@
+v28: added dedicated DOM home probe tripod overlay above center, defined ProbeDbg safely, exposed homeDOM truth flag, and updated render truth reporting.

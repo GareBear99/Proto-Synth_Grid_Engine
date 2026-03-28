@@ -1,0 +1,6 @@
+v43 runtime scroll hardening
+- Expanded local-scroll ownership to probe panel + queue list
+- Added hover/active scrollbar visibility + edge glows for probe surfaces
+- Hardened topbar touch-action against accidental pinch zoom
+- Improved autowrap target labeling for generic target entries
+- Kept global wheel zoom from stealing input over owned scroll surfaces

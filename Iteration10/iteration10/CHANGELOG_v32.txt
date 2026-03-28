@@ -1,0 +1,4 @@
+v32
+- Added always-visible absolute HTML home probe rig centered above the eye when Show Probe is on and Free Roam is off/home doctrine applies.
+- Added stronger main-canvas PROBE HOME ACTIVE marker above center.
+- Synced home-probe badge and absolute rig labels to live mode state.

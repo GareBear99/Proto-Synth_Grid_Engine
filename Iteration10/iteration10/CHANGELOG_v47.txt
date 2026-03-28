@@ -1,0 +1,8 @@
+v47 — persistent micro save/load + micro scanner authority + submicro render specialization
+
+- Added micro residency persistence into synth save/load payloads
+- Restored tile-view state across persistent world restores
+- Added scanner authority hold/clear state for focused micro tiles
+- Added anomaly tracking per active micro selection
+- Added submicro specialized render overlay for drilled cells
+- Expanded micro controller diagnostics with anomaly + authority readouts

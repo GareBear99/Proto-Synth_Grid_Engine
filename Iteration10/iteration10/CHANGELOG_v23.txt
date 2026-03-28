@@ -1,0 +1,4 @@
+v23 — home probe overlay fix
+- split home-state probe rendering from route/world-space probe rendering
+- home probe now always draws as a dedicated screen-space overlay above the eye when Show Probe is on and probe is home/returning
+- fixes missing probe at center-home spawn state

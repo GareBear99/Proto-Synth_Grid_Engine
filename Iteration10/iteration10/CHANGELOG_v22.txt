@@ -1,0 +1,5 @@
+v22
+- fixed Show Probe / Show Spawn home-center behavior
+- home probe now renders as a forced center-above-eye overlay when in SPAWN / SETTLED_HOME doctrine
+- spawn dock toggle now truthfully shows the dock above the eye at home
+- probe panel center tag now reflects SPAWN/SETTLED_HOME/RETURN_HOME doctrine

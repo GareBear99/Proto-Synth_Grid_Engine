@@ -1,0 +1,5 @@
+v67 account routes + autowrap reduction
+- validator-owned listeners now bypass autowrap fallback
+- explicit IV.wrap handlers are treated as accounted-for routes
+- retired lingering HOME PROBE TEST / PROBE HOME overlays with hard CSS hide
+- reduces fallback autowrap dependence so autowrap better reflects truly unowned surfaces

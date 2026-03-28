@@ -1,0 +1,32 @@
+Synth Grid Engine v46 — Cross-Scale Writeback + Micro Build Grammar + Drill Handoff
+
+Added:
+- True cross-scale writeback from resident tile micro bundles into shell-level tileMicroSummary.
+- Shell-level microAggregate summary for population / structures / roads / hubs / relays.
+- Micro build grammar with tools:
+  - road
+  - block
+  - hub
+  - relay
+  - erase
+- Tile micro controller queue now records local micro build jobs.
+- Submicro drill state via nested cell seed/controller metadata.
+- Focused micro selection highlight in tile micro render.
+- Micro controller overlay now shows tool, depth, selected cell, and structural counts.
+- New controls:
+  - Micro Build (G)
+  - Tool Cycle (T)
+  - Drill In (,)
+  - Drill Out (.)
+  - Micro navigation on Arrow keys / WASD while in TILE_MICRO or TILE_SUBMICRO.
+
+Changed:
+- TILE_VIEW now supports TILE_SUBMICRO.
+- Tile Micro toggle now exits from MICRO and SUBMICRO cleanly.
+- Active tile micro probe stops auto-wandering while focused so editing is stable.
+- Micro overlay title switches between TILE ZOOM / TILE MICROSPACE / TILE SUBMICRO.
+- HUD overlay now includes shell-level microAggregate summary.
+
+Intent:
+- Make one macro tile behave more like a real nested runtime substrate.
+- Keep macro math running while micro edits write meaningful state back upward.

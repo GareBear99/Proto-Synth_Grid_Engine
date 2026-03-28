@@ -1,0 +1,9 @@
+Synth Grid Engine v14 — Probe Authority-Gated Pathing
+
+Changes:
+- Probe movement now follows route-graph authority pathing instead of direct free-flight.
+- Free roam proposals resolve to route tiles and path through adjacency.
+- Probe always treats spawn tile as canonical home anchor.
+- When free roam is off, probe path-locks back to spawn and settles there.
+- Added internal shortest-path routing and live path authority state.
+- Probe settings panel now reports auth state.

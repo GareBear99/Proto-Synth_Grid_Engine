@@ -1,0 +1,16 @@
+v19 — route tint authority + inspector denial reasons
+- added separate tint logic for stacked path roles:
+  - active task lanes
+  - return-home lanes
+  - queued future lanes
+  - queued return lanes
+- kept dark stacking underlay while adding role-tinted overlays
+- active route now uses role-specific halo/core colors
+- tile inspector now reports denial reason for selected/active action:
+  - CLEAR
+  - FREE_ROAM_LOCKED
+  - SPAWN_TILE_PROTECTED
+  - RETURN_PATH_BLOCKED
+  - ROUTE_UNREACHABLE
+  - ACTIVE_PATH_BLOCKED
+  - NO_TARGET / NO_ROUTE_CONTEXT

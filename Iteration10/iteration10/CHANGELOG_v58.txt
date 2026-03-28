@@ -1,0 +1,7 @@
+v58 — boot stabilization + nonfatal bootstrap hardening
+- added clearError() so successful module/blueprint bootstrap can clear stale boot_exception holds
+- hardened setModule() so scanner/probe postload FX warnings do not abort module attachment
+- hardened loadDefaultModules() with per-module fallback loading
+- made blueprint post-load tail safer: survey autoload / panel sync / reticle sync warnings no longer collapse blueprint load
+- blueprint success now clears stale boot fault state with BLUEPRINT_READY
+- module success now clears stale boot fault state with MODULES_READY

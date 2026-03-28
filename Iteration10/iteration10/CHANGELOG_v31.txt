@@ -1,0 +1,1 @@
+v31: Added guaranteed home probe marker on main canvas plus hard DOM badge so Show Probe ON + Free Roam OFF always has a visible home-state artifact.

@@ -1,0 +1,6 @@
+Synth Grid Engine v62 — authority normalization + spawn protection recovery
+
+- Added updateSpawnProtection(shell) recovery helper to stop repeated boot/runtime exceptions when emergency bootstrap or blueprint load calls spawn protection updates.
+- Normalized validator authority checks so expected empty tiles adjacent to route tiles no longer falsely trip scan_authority_mismatch as near-route.
+- Preserved strict autowrap + intent validation while removing false-positive authority spam from emergency shells.
+- Intended result: emergency shell can remain strict without flooding validator with expect=empty got=near-route violations.

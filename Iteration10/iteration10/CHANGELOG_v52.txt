@@ -1,0 +1,7 @@
+Synth Grid Engine v52 — Micro Writeback Authority + Tile Blueprint Export
+- Added microcontroller writeback path from per-tile residency into authoritative occupancy entries.
+- Occupancy/registry state now carries microAuthority, microBuildClass, microPenalty, and microPopulation.
+- Micro controller modes now resolve LOCAL_IDLE / WRITEBACK_READY / AUTHORITY_HOLD for active tile residency.
+- Survey save/load/export now preserve micro residency snapshots and micro aggregate stats.
+- Added active tile blueprint export on O for the focused tile/subgrid layer.
+- Persistence/version strings bumped to v52_micro_writeback_autosave.

@@ -1,0 +1,6 @@
+Synth Grid Engine v17 — Queue Tile IDs + Probe Inspector
+
+- queue panel now shows exact tile identity: face / i / j
+- added probe tile inspector block under the purple probe panel
+- inspector shows active target tile, settled tile, route index, class, confidence, and scan count
+- panel refresh now keeps queue + inspector in sync with probe state

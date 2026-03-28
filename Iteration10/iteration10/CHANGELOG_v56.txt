@@ -1,0 +1,9 @@
+v56 — intent contract enforcement
+
+- every autowrapped action now resolves through intent inference before validation
+- unknown intent now records a validator violation instead of remaining a tolerated runtime bucket
+- denied intent contracts now increment violations and log source/event type context
+- added named intent inference for window/document/runtime events and right-dock panel surfaces
+- panel/history/builder/writeback/micro receipt surfaces now classify into named panel/runtime intents
+- autowrap now catalogs unknown-intent bind sites as violations for audit completeness
+- production rule locked: action -> autowrap -> intent -> contract -> allow or violation

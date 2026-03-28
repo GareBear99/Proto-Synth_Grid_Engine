@@ -1,0 +1,6 @@
+v13 — Probe Spawn Lock + Return Settle
+- Probe free-roam toggle now hard-resets the probe onto the canonical spawn tile before departure.
+- Probe non-free-roam mode now hard-returns to spawn and snaps/holds there once close.
+- Probe idle orbit now anchors around the spawn tile instead of shell origin.
+- Blueprint load now binds probe position/planned state to the shell spawn tile instead of route#0 fallback.
+- This keeps the probe visually and logically tied to the user spawn anchor.

@@ -1,0 +1,7 @@
+v35 — Blueprint Semantic Compiler + Autonomous Synth Executor + Persistent World State
+
+- Added semantic blueprint compiler at reticle (J) that assigns a structured ring of roles around the target tile.
+- Added autonomous Synth executor that seeks build/repair work on the active synth domain and repairs corruption/build progress.
+- Added persistent world state save/load (U/I) using localStorage plus downloadable JSON snapshot export.
+- Added executor marker + extended matrix synth overlay readout.
+- Updated synth version string and receipts/log messaging for v35.

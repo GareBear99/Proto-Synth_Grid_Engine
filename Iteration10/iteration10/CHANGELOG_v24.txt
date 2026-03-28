@@ -1,0 +1,4 @@
+v24
+- Replaced weak home probe overlay with a dedicated brighter iteration4-style tripod home rig
+- Home probe now renders as a large screen-space dock above the eye when Show Probe is on
+- Added explicit center tether, larger tripod legs, brighter lens, and SPAWN DOCK label

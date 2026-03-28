@@ -1,0 +1,7 @@
+v33
+- Added first persistent MATRIX SYNTH truth layer on shell route tiles.
+- Added deterministic synth node roles: generator, relay, memory, router, assembler.
+- Added signal propagation across authoritative route adjacency.
+- Added reticle compile action (G), pulse action (X), role hotkeys (1-5), overlay toggle (M), and auto-seed from blueprint (K).
+- Added synth overlay panel + validator/overlay reporting for active nodes, built nodes, peak signal, compile count, and pulse count.
+- Kept render/sim separation intact: synth logic advances in step() and renders as an overlay over the existing shell/probe system.

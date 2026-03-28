@@ -1,0 +1,9 @@
+v55 Production Hardening Pass
+- Added authority conflict rules for micro writeback via arc_authority_v55.js.
+- Added runtime audit helpers via arc_validator_v55.js.
+- Writeback now surfaces armed / cooldown / conflict / blocked decisions with reasons.
+- Added micro_writeback_blocked receipts for failed or conflict-gated writeback attempts.
+- Added BUILDER SWARM panel to show recent commit traces and live commit progress.
+- Expanded command history summary with runtime warning / issue counts.
+- Expanded authority validation to include shell consistency and runtime audit checks.
+- Bumped persistence version to v55_production_hardening.

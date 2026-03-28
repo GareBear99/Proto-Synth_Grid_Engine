@@ -1,0 +1,22 @@
+Synth Grid Engine v49 — Runtime QA + Micro Receipt UI + Local Swarm Expansion + Nested Drill Hardening
+
+Added:
+- MICRO RECEIPTS panel docked into the right-side panel stack
+- local-scroll ownership for the micro receipt panel and receipt list
+- hover/active scrollbars and edge glow indicators for the new panel
+- local micro builder swarm expansion:
+  - root micro layers now default to 3 builders
+  - deeper submicro layers now scale to 2–3 builders depending on depth
+- nested drill breadcrumb/path readouts in focused tile overlays
+- micro receipt panel live refresh with tile/depth/builder/penalty summaries
+
+Hardened:
+- right-dock docking now includes the micro receipt panel
+- scroll ownership discovery includes the micro receipt surfaces
+- focused micro layers rebalance builder counts on tick to avoid stale one-builder restores
+- nested submicro overlays now show drill path to reduce deep-edit confusion
+
+Intent:
+- close the final readability gap for recursive tile work
+- make local builder execution more legible
+- make micro receipts visible in-UI instead of persistence-only

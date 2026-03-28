@@ -1,0 +1,8 @@
+Synth Grid Engine v63 — READY promotion + proof normalization
+
+- Canonical proof now treats near-route emergency adjacency as proof-valid when routeMatch is true.
+- Canonical proof now treats mapped route/core/interior classifications as proof-valid when routeMatch is true.
+- Intent gate no longer emits misleading deny reason "ready" while boot is not actually READY.
+- Runtime-ready emergency shells now promote SAFE_MODE/WAIT_BLUEPRINT sessions into READY automatically.
+- Tile/micro actions may proceed from PLANNED state instead of waiting for COMPLETE only.
+- Added boot_self_heal_ready receipt for self-healed READY promotion.

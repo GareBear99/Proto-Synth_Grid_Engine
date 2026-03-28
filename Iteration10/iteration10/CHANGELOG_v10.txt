@@ -1,0 +1,21 @@
+Synth Grid Engine — v10 Authority / Proof Upgrade
+
+Included in this package:
+- Canonical reticle proof layer added to the live reticle packet.
+- Proof summary added to validator panel and debug overlay.
+- Receipt envelope system added with contextual metadata:
+  - boot/build state
+  - scan phase
+  - shell id / shell seed
+  - ARC address
+  - live seed
+  - proof snapshot
+- Export buttons added:
+  - Export Survey
+  - Export Receipts
+- Lifecycle contract verifier added for boot/build state transitions.
+- Survey save/load now emit receipts.
+- Receipt export includes the full receipt ledger.
+
+Intent:
+This upgrade closes more of the proof / receipt / authority loop without changing the core navigation feel.

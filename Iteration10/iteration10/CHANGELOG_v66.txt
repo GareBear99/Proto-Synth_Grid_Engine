@@ -1,0 +1,4 @@
+v66
+- retired HOME PROBE TEST canvas overlay
+- normalized displayed boot truth to READY when runtime is healthy
+- pinned spawn surface rider to centered home anchor to stop orbit drift during spawn_hold

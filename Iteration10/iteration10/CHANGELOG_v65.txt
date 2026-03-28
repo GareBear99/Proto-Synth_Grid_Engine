@@ -1,0 +1,5 @@
+v65 visual cleanup + ready truth
+- removed HOME PROBE TEST and duplicate PROBE HOME ACTIVE overlays
+- disabled screen-space home debug overlay
+- canonical home/spawn visual is the world tripod rig
+- boot self-heal now writes Boot.READY into runtime state

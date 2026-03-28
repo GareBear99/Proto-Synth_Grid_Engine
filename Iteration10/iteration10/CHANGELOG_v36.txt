@@ -1,0 +1,20 @@
+Synth Grid Engine v36 — Receipts + Queue Pathing + Restore Hooks
+
+Added:
+- receipt hash validation for persistent synth world state
+- queued build targets for compiled/blueprinted nodes
+- BFS pathing for Synth executor instead of greedy-only stepping
+- blueprint mode cycling: semantic / lattice / forge
+- build queue + restore status visible in Matrix Synth overlay
+- boot-time synth restore hook from saved world state
+
+Controls:
+- B = cycle blueprint mode
+- J = compile current blueprint mode at reticle
+- U = save world state + hash
+- I = load world state + validate hash
+
+Notes:
+- queue now drives executor target priority
+- save/load now preserves queue + blueprint mode + executor state
+- overlay reports hash validity and restore status

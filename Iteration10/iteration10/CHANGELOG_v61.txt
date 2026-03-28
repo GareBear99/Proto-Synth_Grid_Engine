@@ -1,0 +1,6 @@
+Synth Grid Engine v61 — emergency blueprint bootstrap
+
+- Added emergencyBootstrapShell() to prevent boot deadlock when fallback blueprint loading still fails.
+- Boot now escalates from fallback blueprint retry into an emergency one-tile shell instead of looping forever in WAIT_BLUEPRINT.
+- triggerFallback(), bootStep(), init fallback bootstrap, and loadBlueprint() fallback catch path now all attempt emergency bootstrap before SAFE_MODE collapse.
+- Emergency shell emits blueprint_ready receipt with emergency=true and clears stale boot error state.

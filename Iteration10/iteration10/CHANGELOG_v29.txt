@@ -1,0 +1,4 @@
+v29 Render Surface Forensics
+- Added impossible-to-miss HOME PROBE TEST DOM block
+- Added DOM attachment/style/rect truth diagnostics
+- Forced showProbe test block independent of free roam

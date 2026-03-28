@@ -1,0 +1,7 @@
+v42 — validator-driven input hardening
+- Made INPUT VALIDATOR panel locally scroll-owned: wheel only affects hovered validator panel.
+- Added validator hover/active glow and top/bottom edge indicators for hidden content.
+- Added validator hover scrollbar visibility and active scroll pulse.
+- Improved topbar wheel ownership so panel scrolling does not leak into camera zoom.
+- Improved autowrap target naming so generic "target" labels resolve to richer element identities.
+- Added damped targetZoom behavior to smooth wheel zoom changes and reduce jitter.

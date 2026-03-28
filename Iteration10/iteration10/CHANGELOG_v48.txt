@@ -1,0 +1,15 @@
+Synth Grid Engine v48 — Micro Receipts + Recursive Submicro Editing + Local Builder Execution + Cross-Scale Authority Penalties
+
+Added:
+- Per-tile micro receipt stream separate from macro receipts
+- Local micro/submicro builder execution visuals and queue processing
+- Recursive editable submicro grids (not just seeded labels)
+- Cross-scale authority penalty roll-up for scanner-hold micro tiles
+- Extended micro persistence for receipts/builders/penalties
+- Updated persistent world save filename to v48
+
+Behavior:
+- Micro and submicro edits now enqueue local jobs consumed by local builders
+- Submicro drill creates real editable nested grids
+- Scanner-hold tiles accumulate macro penalty that rolls up into shell summaries
+- Focus overlay now shows builder count, recent micro receipts, and penalty values

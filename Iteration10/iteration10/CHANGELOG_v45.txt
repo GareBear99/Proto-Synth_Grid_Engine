@@ -1,0 +1,11 @@
+v45 — True Tile Zoom State + Focused Micro Render
+
+- Added TILE_VIEW state machine: GLOBE / TILE_ZOOM / TILE_MICRO.
+- Added topbar controls: Tile Zoom (Z) and Tile Micro (V).
+- Added tile residency map so focused tiles can own local micro bundles.
+- Added micro controller / probe / scanner bundle per resident tile.
+- Added background micro simulation summaries (population / structures / power / signal).
+- Added focused tile overlay rendering while macro world math continues in the background.
+- Added receipts for tile-view enter/exit.
+- Added validator/overlay awareness for tile view state and resident tile count.
+- Added intent wiring for tile view controls with boot/build gating.

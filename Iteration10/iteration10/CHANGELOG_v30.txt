@@ -1,0 +1,5 @@
+v30 — UI overlay probe fix
+- Added dedicated topmost probeOverlay canvas
+- Draws forced HOME PROBE TEST + tripod on overlay canvas when Show Probe is on under home doctrine
+- Added ui overlay truth fields to probe panel/inspector
+- Keeps existing DOM/canvas paths for comparison

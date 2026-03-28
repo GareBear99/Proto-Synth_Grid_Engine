@@ -1,0 +1,17 @@
+Synth Grid Engine — v12 Probe Path Authority
+
+- Added purple Probe Settings panel upgrades:
+  - Show Probe toggle
+  - Free Roam toggle
+  - Show Path toggle
+  - Show Spawn toggle
+- Probe now defaults to SPAWN/RETURN mode until Free Roam is enabled.
+- Added explicit probe mode states: SPAWN / RETURN / FREE-ROAM.
+- Added visible probe trail so roaming motion is readable.
+- Upgraded probe rig scale to read more clearly on-shell.
+- Replaced ambiguous spawn diamond behavior with a clearer spawn dock marker.
+- Added route adjacency graph for shell pathing.
+- Added spawn-path protection check helper.
+- Spawn tile is permanently protected.
+- Added deny path for WRITE_TILE if it would sever the final return route to spawn.
+- Added live probe panel status updates for path protection / blocked state.

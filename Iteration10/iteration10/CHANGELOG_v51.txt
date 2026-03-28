@@ -1,0 +1,9 @@
+Synth Grid Engine v51 — Builder Commit Loop + Authority Completion Pass
+- Added post-mapping lifecycle states: VERIFIED -> COMMITTING -> COMPLETE -> EMPTY_REPO_READY.
+- Added lightweight builder commit plan generated from authoritative occupancy.
+- Commit plan now prioritizes perimeter route objects first, then interior occupancy.
+- Added commitState tracking per authoritative object key.
+- Registry rebuild now promotes mapped/committed authority objects to PROVEN visibility.
+- Survey save/load/export now persist commit state, cursor, and commit stats.
+- HUD / planner lines now expose commit progress in real time.
+- Persistence/version strings bumped to v51_builder_commit_autosave.

@@ -1,0 +1,6 @@
+v60 — boot helper recovery
+- added boot-safe global helper stubs for sh(...) and logPush(...)
+- missing helper calls now write to engine logs instead of throwing
+- blueprint load now emits blueprint_ready receipt
+- boot READY transition now emits boot_ready receipt
+- startup emits boot_helper_stubbed receipt for validator confirmation

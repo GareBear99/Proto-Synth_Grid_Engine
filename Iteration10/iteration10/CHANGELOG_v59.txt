@@ -1,0 +1,9 @@
+v59 — boot self-heal completion pass
+
+- added selfHealBootState() bootstrap recovery path
+- forces default module attachment when scanner/probe/hud drift missing
+- promotes blueprintLoaded when authoritative shell already exists
+- rebinds activeShellId from existing shells if shell id is missing
+- retries fallback/current blueprint bootstrap before leaving boot idle
+- clears stale boot_exception after shell + blueprint + all modules are present
+- bootStep now runs self-heal before deciding SAFE_MODE / WAIT_BLUEPRINT

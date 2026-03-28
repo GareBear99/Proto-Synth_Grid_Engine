@@ -1,0 +1,5 @@
+v18 - probe route stack highlight pass
+- added queued-path stack analysis across up to 10 actions
+- added darkening under stacked path segments so overlaps read clearly
+- brightened current active route leg
+- added stronger route endpoint pulse for active leg

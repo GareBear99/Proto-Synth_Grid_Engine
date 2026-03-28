@@ -1,0 +1,7 @@
+v38 — multi-builder swarm + typed corruption ecology + authored blueprint language
+- Added 3-unit synth swarm sharing the global build queue.
+- Added corruption types: parasite, cascade, deadzone, bloom.
+- Added authored blueprint modes: nexus and citadel.
+- Persistence now stores/restores swarm state under v38 keys.
+- Overlay now reports swarm count and corruption-class totals.
+- Audit export now includes swarm and corruption summaries.

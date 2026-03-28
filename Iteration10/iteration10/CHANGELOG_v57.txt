@@ -1,0 +1,8 @@
+v57 — boot promotion + intent rebinding
+- autoload default ship/scanner/probe/hud modules on init and bootStep
+- autoload fallback blueprint on init and bootStep
+- added boot issue tracking receipts and on-screen lifecycle issue text
+- normalize autowrap targets for resize/error/keyboard/global events to reduce unknown owners
+- mapped tile/micro topbar controls into explicit intent IDs
+- window error and unhandledrejection now append boot_error receipts
+- validator gate now uses boot issue reasons for fail-closed denials

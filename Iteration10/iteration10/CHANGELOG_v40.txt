@@ -1,0 +1,16 @@
+v40 — UI hardening / responsive top chrome + right-dock stabilization
+
+Changes:
+- top command bar hardened as a true horizontal-scrolling strip
+- drag-to-scroll now ignores buttons/inputs so clicks don't get eaten
+- wheel scrolling keeps horizontal access stable on overflow
+- layout chrome sync added via CSS vars for topbar/validator heights
+- validator panel now positions below real topbar height dynamically
+- right-side EYE + PROBE panels now dock into a shared responsive stack
+- right dock now adapts on smaller heights/widths instead of overlapping the main view as aggressively
+- HUD width now clamps around right-side dock presence
+- probe queue panel max-heights tuned for shorter windows
+- presentation mode now hides the shared right dock cleanly
+
+Intent:
+Bring the UI shell closer to production-safe behavior on smaller desktop windows and prevent the top interaction layer from blocking itself.

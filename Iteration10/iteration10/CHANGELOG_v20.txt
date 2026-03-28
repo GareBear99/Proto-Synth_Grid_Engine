@@ -1,0 +1,4 @@
+v20
+ - canonical spawn tile now resolves to the route tile nearest the shell origin instead of hardcoded route#0
+ - probe/home dock now renders above the center eye when settled on spawn so the spawn point is visibly above the user
+ - spawn marker inherits the same center-safe lift to avoid hiding behind the eye

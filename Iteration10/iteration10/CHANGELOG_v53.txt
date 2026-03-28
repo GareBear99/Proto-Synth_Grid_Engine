@@ -1,0 +1,5 @@
+Synth Grid Engine v53
+- Added tile blueprint re-import flow from exported JSON back into the focused tile/subgrid.
+- Added WRITEBACK STATUS dock panel showing local tile authority, writeback mode, occupancy authority, commit state, and shell aggregate status.
+- Added COMMAND HISTORY dock panel using recent receipts for a lightweight right-side history surface.
+- Refreshed runtime text/help to reflect export/import completion pass.

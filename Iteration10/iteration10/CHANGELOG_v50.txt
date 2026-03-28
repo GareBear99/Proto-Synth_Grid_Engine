@@ -1,0 +1,6 @@
+Synth Grid Engine v50 — Object Registry + Proof Pass
+- Added authoritative object registry and per-object proof stage.
+- Reticle packets now expose registryId, proof, and visibleState.
+- Evidence writes rebuild registry state for UNKNOWN/SUSPECTED/PROVEN transitions.
+- Survey save/load/export now preserve registry snapshot + stats.
+- Persistence/version strings bumped to v50_object_registry_proof_autosave.

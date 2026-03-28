@@ -1,0 +1,12 @@
+Synth Grid Engine v11 — Spawn-Locked Probe + Probe Panel
+
+Changes:
+- Added purple iPhone-style Probe Settings panel above compass.
+- Added Show Probe toggle.
+- Added Free Roam toggle.
+- Probe now spawns on shell spawn tile (route#0) when blueprint loads.
+- When Free Roam is off, probe returns to and holds on spawn tile.
+- Repurposed old top diamond/surface rider into a purposeful SPAWN marker.
+- Added visible 3-leg roaming probe rig so free-roam is obvious.
+- Added protected return corridor visualization from probe back to spawn.
+- Added internal future safety helpers for spawn/path obstruction checks.

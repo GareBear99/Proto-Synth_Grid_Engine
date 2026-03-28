@@ -1,0 +1,5 @@
+v26 PROBE TRUTH HARNESS
+- Added ProbeDbg truth packet and owner reporting
+- Added forced screen-space HOME PROBE DEBUG overlay
+- Home overlay now renders source-over, large, boxed, and topmost
+- Probe panel subline now reports owner + homeDraw flags

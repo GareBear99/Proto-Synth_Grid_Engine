@@ -1,0 +1,7 @@
+v39 — top command bar scroll + UI hardening
+- Wrapped top command bar in a dedicated horizontal scroll container.
+- Added non-wrapping button layout so command buttons stay on one row.
+- Added wheel-to-horizontal scrolling and drag-to-scroll for the top bar.
+- Added left/right edge fade indicators when more commands are off-screen.
+- Kept presentation mode compatible with the new topbar wrapper.
+- Added white-space/flex hardening to prevent top controls from collapsing or wrapping.
