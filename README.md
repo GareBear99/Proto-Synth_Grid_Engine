@@ -186,5 +186,5 @@ Support helps with development time, testing, visuals, documentation, and future
 
 ## License
 
-![Polygon](images/Polygon.jpeg)
+![Polygon](images/Polygon.jpg)
 
