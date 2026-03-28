@@ -86,7 +86,7 @@ That makes it useful for:
 
 ## Screenshots
 
-### Iteration 8 — Example World
+### Iteration 8 — Octagon Example Blueprint
 
 ![Iteration 8 Example World](images/Image1.jpeg)
 
