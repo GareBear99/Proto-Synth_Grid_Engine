@@ -1,6 +1,8 @@
 
 # Iteration 10 - Synth Grid Engine
 
+Just one of infinite potentials, fully versatile modular code in every aspect!
+
 ![Demo](images/Image3.jpeg)
 
 A blueprint-driven simulation shell where geometry becomes computation.
