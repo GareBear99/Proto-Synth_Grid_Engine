@@ -1,181 +1,219 @@
+# SYNTH GRID ENGINE
+
+<p align="center">
+  <img src="assets/geometry-synth-banner.svg" alt="Synth Grid Engine animated geometry banner" width="100%" />
+</p>
+
+<p align="center">
+  <b>Deterministic 2D simulation.</b>
+  <br/>
+  <b>Projected to feel visually 3D.</b>
+  <br/>
+  <b>Blueprint geometry becomes computation.</b>
+</p>
+
+<p align="center">
+  <img alt="status" src="https://img.shields.io/badge/status-experimental-8a2be2">
+  <img alt="runtime" src="https://img.shields.io/badge/runtime-browser-00c2ff">
+  <img alt="server" src="https://img.shields.io/badge/server-none-ff4fd8">
+  <img alt="simulation" src="https://img.shields.io/badge/sim-deterministic-8bff6a">
+</p>
 
 ---
 
-# Iteration 8 - Example World
+## What this is
 
+Synth Grid Engine is a **math-first world runtime** where shell geometry, module layout, and deterministic execution all share the same blueprint-driven foundation.
 
-![Demo](images/Image1.jpeg)
+Instead of treating the world like a background for gameplay, this system treats the world itself as an active computational structure:
 
-The included example blueprint: blueprint_octagon.json
+- **geometry = storage**
+- **movement = computation**
+- **entities = executors**
+- **blueprints = source of truth**
 
-Builds an octagon shell structure where modules can attach.
+The simulation runs in **2D vector space** for clarity, repeatability, and low overhead, then projects outward into a scene that feels visually 3D.
 
 ---
 
-# Iteration 9 - Game Engine Prototype
+## Why it matters
+
+This engine is built around a different philosophy than a typical game prototype.
+
+Most engines start with rendering and then bolt logic onto the visuals.
+Synth Grid Engine does the opposite:
+
+- simulation first
+- geometry first
+- deterministic execution first
+- visuals as projection of truth
+
+That makes it useful for:
+
+- blueprint-driven world generation
+- modular shell systems
+- spatial execution visualization
+- low-cost simulation on older hardware
+- debugging and validation without hidden engine state
+- future operating-system-like worlds and simulation shells
+
+---
+
+## Core architecture
+
+### 1. Shell Blueprint
+Defines the structural world shape.
+
+Examples:
+- octagons
+- rings
+- hulls
+- shells
+- custom procedural topology
+
+### 2. Module Blueprints
+Attach systems into the shell.
+
+Examples:
+- ship modules
+- scanner modules
+- HUD modules
+- future execution or sensing systems
+
+### 3. Execution Layer
+Runs the deterministic simulation loop.
+
+This is where movement, state transitions, interactions, and spatial logic resolve.
+
+---
+
+## Main design principles
+
+### Deterministic by default
+The same seed and blueprint input should produce the same world state.
+
+### 2D core, 3D feeling
+Everything important happens in a clean simulation plane.
+Rendering then uses projection, scale, depth ordering, and geometry tricks to give it a spatial 3D feel.
+
+### Modular runtime
+The engine is meant to load shell and module blueprints at runtime rather than hardcoding one world forever.
+
+### Lightweight execution
+This is meant to run smoothly even on older systems without requiring a full heavyweight 3D pipeline.
+
+### Blueprint-first development
+The blueprint is not an accessory. It is the actual authority.
+
+---
+
+## Current iterations
+
+## Iteration 8 — Example World
+
+![Iteration 8 Example World](images/Image1.jpeg)
+
+Included example blueprint:
+
+`blueprint_octagon.json`
+
+Purpose:
+- builds an octagon shell structure
+- establishes attachment points for modules
+- serves as the clearest baseline world example
+
+---
+
+## Iteration 9 — Game Engine Prototype
 
 <details>
-<summary>Click to view Synth Grid Game Engine prototype</summary>
+<summary><b>Open Iteration 9 details</b></summary>
 
 ![Synth Grid Engine Prototype](images/Image2.jpeg)
 
-Example simulation of the Synth Grid Engine.
+This phase proves the simulation can function as a real runtime, not just a static concept.
 
-The world runs on a **deterministic 2D simulation core** while projecting visually as a 3D sphere.
+Demonstrated systems:
+- blueprint shell generation
+- cube-grid projection mapping
+- deterministic seed worlds
+- modular system attachment
+- spatial execution visualization
 
-Each tile represents simulation state generated from blueprint geometry.
-
-This prototype demonstrates:
-
-• blueprint shell generation  
-• cube-grid projection mapping  
-• deterministic seed worlds  
-• modular system attachment  
-• spatial execution visualization  
-
-The interface allows runtime loading of:
-
+The interface supports runtime loading of:
 - Shell Blueprints
 - Ship Modules
 - Scanner Modules
 - HUD Modules
 
-This prototype is also being used as a base for the **ThingsHappening game systems**.
+This prototype also acts as a stepping stone for the broader **ThingsHappening** systems.
+
+</details>
 
 ---
 
-# Iteration 10 - Synth Grid Engine
+## Iteration 10 — Synth Grid Engine
 
-Just one of infinite potentials, fully versatile modular code in every aspect!
+![Iteration 10 Demo](images/Image3.jpeg)
 
-![Demo](images/Image3.jpeg)
+This is the clearest expression so far of the real idea:
 
-A blueprint-driven simulation shell where geometry becomes computation.
+> a blueprint-driven simulation shell where geometry becomes computation
 
-This project is an experimental system that treats space like a filesystem and entities like autonomous executors. The world itself becomes a programmable environment.
+It pushes the project beyond a simple prototype and toward a reusable world-runtime architecture.
 
-Inspired by:
-- TRON Grid Worlds
-- Geometry Wars style spatial computation
-- Modular OS-like simulation environments
-
----
-
-# Core Idea
-
-Instead of building a fixed application, the engine loads **blueprints** that define how the world behaves.
-
-The system consists of three blueprint layers:
-
-1. **Shell Blueprint**
-   Defines the world geometry.
-
-2. **Module Blueprints**
-   Attach systems into the world.
-
-3. **Execution Layer**
-   Deterministic simulation loop.
-
-Geometry = storage  
-Movement = computation  
-Entities = executors  
+Inspirations:
+- TRON-style grid worlds
+- Geometry Wars energy and spatial clarity
+- modular operating-system-like environments
 
 ---
 
-# Math-First Simulation
+## Feature highlights
 
-The engine is math-first, not graphics-first.
-
-The simulation runs entirely in deterministic 2D vector space, while the rendering layer projects the world to appear visually 3D.
-
-This approach provides several advantages:
-
-• extremely low CPU usage
-
-• deterministic reproducible worlds
-
-• simple debugging and validation
-
-• portable execution on almost any hardware
-
-
-Even older machines (2010–2012 era laptops) can run the simulation smoothly.
-
-# 2D Core → Visually 3D
-
-All world logic runs in 2D simulation space.
-
-Rendering then projects that simulation into a visually 3D environment using techniques such as:
-
-- perspective scaling
-
-- layered sprites
-
-- cube grid projection
-
-- depth shading
-
-This creates a 3D-like environment without the cost of a full 3D engine.
-
+- deterministic 2D simulation core
+- visually 3D projection feel
+- runtime blueprint loading
+- modular attachment architecture
+- low-overhead execution model
+- debuggable state flow
+- portable browser-based runtime
+- no server required
 
 ---
 
-# Iteration 8 - Example World
+## Controls
 
-
-![Demo](images/Image1.jpeg)
-
-The included example blueprint: blueprint_octagon.json
-
-Builds an octagon shell structure where modules can attach.
-
----
-
-# Controls
-```
-{
 | Key | Action |
-|----|----|
-| WASD | Move master control |
-| Mouse | Aim vector |
-| C | Toggle reticle |
-| ` | Toggle debug overlay |
-| R | Reset |
-}
-```
----
-
-# Running the Engine
-
-1. Download the repository
-2. Open index.html
-
-
-in a browser.
-
-No server required.
+|---|---|
+| `WASD` | Move master control |
+| `Mouse` | Aim vector |
+| `C` | Toggle reticle |
+| `` ` `` | Toggle debug overlay |
+| `R` | Reset |
 
 ---
 
-# Loading Blueprints
+## Running the engine
 
-Upload blueprints into the runtime UI.
+1. Download the repository.
+2. Open `index.html` in a browser.
+3. Load shell and module blueprints through the runtime UI.
 
-Recommended order:
-
-1️⃣ Shell blueprint  
-
-2️⃣ Ship module  
-
-3️⃣ Scanner module  
-
-4️⃣ HUD module (optional)  
+No server is required.
 
 ---
 
-# Blueprint Format
+## Recommended blueprint load order
 
-Example module blueprint
+1. **Shell blueprint**
+2. **Ship module**
+3. **Scanner module**
+4. **HUD module** *(optional)*
+
+---
+
+## Example module blueprint
 
 ```json
 {
@@ -187,11 +225,57 @@ Example module blueprint
 }
 ```
 
-</details>
+---
 
+## Technical framing
 
+This project is best understood as a **simulation shell runtime** rather than only a game scene.
 
-</details>
+The long-term power comes from the fact that the same architecture can support:
 
+- simulated worlds
+- executable shell spaces
+- modular scanning systems
+- HUD-driven control surfaces
+- future operating-system-like spatial interfaces
 
+That is the deeper point of the engine:
 
+**the environment is not decoration.**
+**the environment is the machine.**
+
+---
+
+## Why this approach is strong
+
+Compared to heavy traditional scene-first architectures, this structure gives you:
+
+- easier reproducibility
+- easier validation
+- easier debugging
+- lower hardware requirements
+- cleaner future expansion into modular systems
+
+Even older machines can run this kind of runtime comfortably because the expensive part is not a full 3D engine.
+
+---
+
+## Next evolution direction
+
+The natural next steps are:
+
+- richer shell blueprint types
+- more advanced module behaviors
+- stronger execution visualization
+- improved HUD instrumentation
+- stronger scanner identity and effects
+- stricter runtime validation and debug tooling
+- cleaner world-to-computation mapping
+
+---
+
+## Summary
+
+Synth Grid Engine is a blueprint-driven, deterministic simulation runtime where 2D truth is projected into 3D-feeling space.
+
+It is lightweight, modular, reproducible, and built around the idea that **geometry itself can be the executable structure**.
