@@ -1,4 +1,17 @@
 
+---
+
+# Iteration 8 - Example World
+
+
+![Demo](images/Image1.jpeg)
+
+The included example blueprint: blueprint_octagon.json
+
+Builds an octagon shell structure where modules can attach.
+
+---
+
 # Iteration 9 - Game Engine Prototype
 
 <details>
@@ -28,6 +41,8 @@ The interface allows runtime loading of:
 - HUD Modules
 
 This prototype is also being used as a base for the **ThingsHappening game systems**.
+
+---
 
 # Iteration 10 - Synth Grid Engine
 
