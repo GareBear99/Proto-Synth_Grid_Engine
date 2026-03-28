@@ -54,7 +54,7 @@ Runs the deterministic simulation loop.
 
 ## Iteration path
 
-## Iteration 8 — Example World
+## Iteration 8 — Blueprint Prototyping
 
 ![Iteration 8 Example World](images/Image1.jpeg)
 
@@ -63,6 +63,9 @@ Included example blueprint: `blueprint_octagon.json`
 Builds an octagon shell structure where modules can attach.
 
 ## Iteration 9 — Game Engine Prototype
+
+<details>
+<summary>Click to expand Iteration 9 prototype</summary>
 
 ![Synth Grid Engine Prototype](images/Image2.jpeg)
 
@@ -80,6 +83,8 @@ The runtime supports loading:
 - Ship Modules
 - Scanner Modules
 - HUD Modules
+
+</details>
 
 ## Iteration 10 — Synth Grid Engine
 
