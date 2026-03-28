@@ -1,5 +1,7 @@
 
-# Synth Grid Engine
+# Iteration 10 - Synth Grid Engine
+
+![Demo](images/Image3.jpeg)
 
 A blueprint-driven simulation shell where geometry becomes computation.
 
