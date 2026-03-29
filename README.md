@@ -59,6 +59,7 @@ Runs the deterministic simulation loop.
 ## Iteration 8 — Blueprint Shell Prototyping
 
 ![Iteration 8 Example World](images/Image1.jpeg)
+- Shell Synth
 
 Included example blueprint: `blueprint_octagon.json`
 
