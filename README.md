@@ -27,7 +27,7 @@ Instead of treating geometry as decoration, the engine treats it as structure, s
 This project is built around a **deterministic 2D simulation core** with a **visually 3D projection layer**. That keeps the runtime lightweight, reproducible, and portable while still delivering a high-contrast synthwave spatial feel.
 
 ![Example](images/Image0.jpeg)
-- Lucipher Synth
+- Lucipher Synth #0
 ## Core idea
 
 The engine loads blueprints that define how the world behaves.
