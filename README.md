@@ -92,7 +92,7 @@ The runtime supports loading:
 ## Iteration 10 — Synth Grid Engine
 
 ![Iteration 10 Demo](images/Image3.jpeg)
-- Lucid Terminal Master Control Synth
+- Lucid Terminal Master Control Synth #1
 
 A blueprint-driven simulation shell where geometry becomes computation.
 
