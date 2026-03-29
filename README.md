@@ -1,4 +1,4 @@
-# SYNTH GRID ENGINE
+# I/O SYNTH GRID ENGINE
 
 <p align="center">
   <img src="geometry-synth-banner.svg" alt="Synth Grid Engine animated geometry banner" width="100%" />
