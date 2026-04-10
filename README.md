@@ -99,6 +99,10 @@ A blueprint-driven simulation shell where geometry becomes computation.
 
 This engine is experimental by design, but the direction is serious: modular world runtime, blueprint-authored structure, deterministic simulation, and portable execution.
 
+## Iteration 11 — PROTO-SYNTH wetware core / runtime v0.1
+
+![Iteration 11 Demo](images/Image4.jpeg)
+
 ## Math-first simulation
 
 All core logic runs in deterministic 2D vector space.
@@ -122,10 +126,6 @@ That gives the engine a 3D-feeling spatial surface without requiring a heavyweig
 | `C` | Toggle reticle |
 | `` ` `` | Toggle debug overlay |
 | `R` | Reset |
-
-## Iteration 11 — PROTO-SYNTH wetware core / runtime v0.1
-
-![Iteration 11 Demo](images/Image4.jpeg)
 
 ## Running the engine
 
