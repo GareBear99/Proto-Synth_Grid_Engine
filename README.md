@@ -123,6 +123,10 @@ That gives the engine a 3D-feeling spatial surface without requiring a heavyweig
 | `` ` `` | Toggle debug overlay |
 | `R` | Reset |
 
+## Iteration 11 — PROTO-SYNTH wetware core / capacity-weighted shell / runtime v0.1
+
+![Iteration 11 Demo](images/Image4.jpeg)
+
 ## Running the engine
 
 1. Download or clone the repository.
