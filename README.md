@@ -99,7 +99,7 @@ A blueprint-driven simulation shell where geometry becomes computation.
 
 This engine is experimental by design, but the direction is serious: modular world runtime, blueprint-authored structure, deterministic simulation, and portable execution.
 
-## Iteration 11 — PROTO-SYNTH wetware core / runtime v0.1
+## Iteration 11 — PROTO-SYNTH / wetware core / runtime v0.1
 
 ![Iteration 11 Demo](images/Image4.jpeg)
 
