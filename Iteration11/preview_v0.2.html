@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Proto-Synth Neural + Voxel Directory Merge</title>
 <style>
-  :root{--bg:#020308;--panel:#050814cc;--text:#f2e8ff;--muted:#9fa7bf}
+  :root{--bg:#020308;--panel:#050814cc;--text:#f2e8ff;--muted:#9fa7bf;--stack-top:118px;--bottom-clearance:116px;--compass-width:148px;--dock-gap:14px}
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;background:radial-gradient(circle at 50% 40%, #16051f 0%, #060811 32%, #010205 100%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;overflow:hidden}
   canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block}
@@ -16,19 +16,19 @@
   .seedBox{display:flex;align-items:center;gap:8px;padding:6px 8px}
   .seedInput{min-width:210px;outline:none;border-radius:9px;padding:8px 10px;background:rgba(255,255,255,.03)}
   .leftpanel,.rightpanel,.bottomleft,.compass,.hovercard{position:fixed;background:var(--panel);border:1px solid rgba(188,124,255,.24);border-radius:16px;box-shadow:0 0 24px rgba(109,43,177,.18), inset 0 0 28px rgba(97,42,145,.08);backdrop-filter: blur(8px);z-index:7}
-  .leftpanel{left:4px;top:86px;width:min(350px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:12px 14px}
-  .rightpanel{right:8px;top:86px;width:min(360px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:12px 14px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 120px);overflow:auto;transition:transform .18s ease, opacity .18s ease}
+  .leftpanel{left:8px;top:var(--stack-top);width:min(350px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:12px 14px;max-height:calc(100vh - var(--stack-top) - var(--bottom-clearance));overflow:auto}
+  .rightpanel{right:8px;top:var(--stack-top);width:min(360px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:12px 14px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - var(--stack-top) - var(--bottom-clearance));overflow:auto;transition:transform .18s ease, opacity .18s ease}
   .rightpanel.hidden,.bottomleft.hidden,.compass.hidden{transform:translateX(110%);opacity:0;pointer-events:none}.leftpanel.hidden{transform:translateX(-110%);opacity:0;pointer-events:none}
   .leftpanel,.bottomleft,.compass{transition:transform .18s ease, opacity .18s ease}
-  .bottomleft{left:8px;right:170px;bottom:8px;padding:8px 12px;width:auto;max-width:none}
-  .compass{right:8px;bottom:8px;width:148px;padding:10px 12px}
+  .bottomleft{left:8px;right:calc(var(--compass-width) + var(--dock-gap) + 8px);bottom:8px;padding:8px 12px;width:auto;max-width:none;max-height:min(22vh,180px);overflow:auto}
+  .compass{right:8px;bottom:8px;width:var(--compass-width);padding:10px 12px}
   .hovercard{display:none;pointer-events:none;padding:10px 12px;min-width:240px;z-index:10}
   h3{margin:0 0 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff4d5}
   .mono,.small{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .mono{font-size:11px;line-height:1.35;white-space:pre-wrap;color:#f6f2ff}
   .small{font-size:11px;color:var(--muted)}
-  .title{position:fixed;left:18px;top:53px;z-index:7;font-family:Georgia,serif;letter-spacing:.18em;font-size:18px;color:#ffc98c;text-shadow:0 0 20px rgba(255,155,46,.15)}
-  .subtitle{position:fixed;left:19px;top:76px;z-index:7;font-size:10px;letter-spacing:.28em;color:#a7afc6;text-transform:uppercase}
+  .title{position:fixed;left:18px;top:53px;z-index:7;font-family:Georgia,serif;letter-spacing:.18em;font-size:18px;color:#ffc98c;text-shadow:0 0 20px rgba(255,155,46,.15);max-width:min(720px,calc(100vw - 32px))}
+  .subtitle{position:fixed;left:19px;top:76px;z-index:7;font-size:10px;letter-spacing:.28em;color:#a7afc6;text-transform:uppercase;max-width:min(760px,calc(100vw - 32px))}
   .footerline{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px}
   .badge,.pill,.pathchip{padding:2px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
   .categoryRow,.objectRow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}
@@ -42,10 +42,19 @@
   .pathbar{justify-content:flex-start}
   .notice{margin-top:8px;color:#c8cee7;font-size:10px;line-height:1.45}
   @media (max-width: 1200px){.rightpanel,.compass{display:none}.bottomleft{left:8px;right:8px;width:auto;max-width:none}}
+  @media (max-width: 900px){
+    .title{top:calc(var(--stack-top) - 58px);font-size:16px}
+    .subtitle{top:calc(var(--stack-top) - 34px);letter-spacing:.18em}
+    .leftpanel{width:min(320px,calc(100vw - 16px))}
+  }
+  @media (max-height: 760px){
+    .leftpanel,.rightpanel{max-height:calc(100vh - var(--stack-top) - var(--bottom-clearance))}
+    .bottomleft{max-height:28vh}
+  }
 </style>
 </head>
 <body>
-<div class="topbar">
+<div class="topbar" id="topBar">
   <div class="btn" id="resetBtn">Reset</div>
   <div class="btn" id="backBtn">Back</div>
   <div class="btn">Upload Blueprint JSON</div>
@@ -59,8 +68,8 @@
   <div class="btn" id="phaseBtn">Phase: Neural</div>
   <div class="btn" id="hubToggleBtn">HUD: Visible</div>
 </div>
-<div class="title">NEURAL-SYNTH</div>
-<div class="subtitle">neural network + voxel convergence / seed-bound category tracking</div>
+<div class="title" id="titleBlock">NEURAL-SYNTH</div>
+<div class="subtitle" id="subtitleBlock">neural network + voxel convergence / seed-bound category tracking</div>
 <canvas id="c"></canvas>
 
 <div class="leftpanel" id="leftPanel">
@@ -113,6 +122,9 @@ align OFFSET 0.884</div>
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 const statusText = document.getElementById('statusText');
+const topBar = document.getElementById('topBar');
+const titleBlock = document.getElementById('titleBlock');
+const subtitleBlock = document.getElementById('subtitleBlock');
 const categoryList = document.getElementById('categoryList');
 const objectList = document.getElementById('objectList');
 const hoverCard = document.getElementById('hoverCard');
@@ -188,6 +200,24 @@ let laneOwners = new Map();
 
 const center=()=>({x:w*0.50,y:h*0.54});
 const bgCenter=()=> currentView==='neural' ? center() : ({x:w*0.5,y:h*0.46});
+
+function updatePanelLayout(){
+  const root = document.documentElement;
+  const topBarRect = topBar.getBoundingClientRect();
+  const titleRect = titleBlock.getBoundingClientRect();
+  const subtitleRect = subtitleBlock.getBoundingClientRect();
+  const visualTop = Math.max(topBarRect.bottom, titleRect.bottom, subtitleRect.bottom) + 10;
+  root.style.setProperty('--stack-top', visualTop + 'px');
+
+  const compact = innerWidth <= 1200;
+  const compassVisible = hubVisible && !compact;
+  const compassRect = compassVisible ? compassPanel.getBoundingClientRect() : {width:0,height:0};
+  const bottomRect = hubVisible ? bottomPanel.getBoundingClientRect() : {height:0};
+  const bottomClearance = Math.max(bottomRect.height, compassRect.height) + 16;
+  root.style.setProperty('--bottom-clearance', bottomClearance + 'px');
+  root.style.setProperty('--compass-width', Math.max(148, Math.ceil(compassRect.width || 148)) + 'px');
+}
+
 
 function currentDepth(){ return focusedObjectId ? 'object' : focusedCategory ? 'category' : 'root'; }
 function objectById(id){ return objects.find(o=>o.id===id) || null; }
@@ -279,11 +309,13 @@ function setHubVisible(next){
   hubToggleBtn.textContent = 'HUD: ' + (hubVisible ? 'Visible' : 'Hidden');
   hubStatePill.textContent = hubVisible ? 'VISIBLE' : 'HIDDEN';
   hubFooter.textContent = 'hud=' + (hubVisible ? 'visible' : 'hidden');
+  requestAnimationFrame(updatePanelLayout);
 }
 
 function fitView(){
   if(currentView==='voxel'){ zoom=Math.min(w/1200,h/760)*0.95; panX=0; panY=0; }
   else { neuralZoom=Math.min(w/1400,h/900)*1.0; }
+  updatePanelLayout();
 }
 function worldToScreen(x,y){ return {x:w/2 + (x+panX)*zoom, y:h/2 + (y+panY)*zoom}; }
 function screenToWorld(x,y){ return {x:(x-w/2)/zoom - panX, y:(y-h/2)/zoom - panY}; }
@@ -690,7 +722,7 @@ function frame(t){
   updateStatus();
   requestAnimationFrame(frame);
 }
-resize(); rebuildFromSeed(); requestAnimationFrame(frame);
+resize(); rebuildFromSeed(); updatePanelLayout(); requestAnimationFrame(frame);
 })();
 </script>
 </body>
