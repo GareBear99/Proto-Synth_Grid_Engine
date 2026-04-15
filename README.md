@@ -117,6 +117,16 @@ The render layer then projects that simulation into a visually 3D environment us
 
 That gives the engine a 3D-feeling spatial surface without requiring a heavyweight full-3D stack.
 
+## NEURAL-SYNTH / wetware core / runtime v0.2
+
+![Iteration 11 Demo](images/Image5.jpeg)
+
+
+## Voxel Directory
+
+![Iteration 11 Demo](images/Image6.jpeg)
+
+
 ## Controls
 
 | Key | Action |
