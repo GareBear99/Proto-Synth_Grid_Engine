@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Proto-Synth Neural + Voxel Directory Merge</title>
+<style>
+  :root{--bg:#020308;--panel:#050814cc;--text:#f2e8ff;--muted:#9fa7bf}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:radial-gradient(circle at 50% 40%, #16051f 0%, #060811 32%, #010205 100%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;overflow:hidden}
+  canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+  .topbar{position:fixed;left:10px;right:10px;top:10px;display:flex;gap:8px;align-items:center;z-index:8;flex-wrap:wrap}
+  .btn,.seed,.seedBox,.seedInput{background:#060b16dd;border:1px solid rgba(188,124,255,.28);color:#fff;border-radius:12px;padding:10px 12px;font-size:12px;line-height:1;box-shadow:0 0 0 1px rgba(255,255,255,.02) inset,0 0 18px rgba(145,55,255,.15)}
+  .btn{cursor:pointer}
+  .seed{min-width:220px;color:#ffe8a6}
+  .seedBox{display:flex;align-items:center;gap:8px;padding:6px 8px}
+  .seedInput{min-width:210px;outline:none;border-radius:9px;padding:8px 10px;background:rgba(255,255,255,.03)}
+  .leftpanel,.rightpanel,.bottomleft,.compass,.hovercard{position:fixed;background:var(--panel);border:1px solid rgba(188,124,255,.24);border-radius:16px;box-shadow:0 0 24px rgba(109,43,177,.18), inset 0 0 28px rgba(97,42,145,.08);backdrop-filter: blur(8px);z-index:7}
+  .leftpanel{left:4px;top:86px;width:min(350px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:12px 14px}
+  .rightpanel{right:8px;top:86px;width:min(360px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:12px 14px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 120px);overflow:auto;transition:transform .18s ease, opacity .18s ease}
+  .rightpanel.hidden,.bottomleft.hidden,.compass.hidden{transform:translateX(110%);opacity:0;pointer-events:none}.leftpanel.hidden{transform:translateX(-110%);opacity:0;pointer-events:none}
+  .leftpanel,.bottomleft,.compass{transition:transform .18s ease, opacity .18s ease}
+  .bottomleft{left:8px;right:170px;bottom:8px;padding:8px 12px;width:auto;max-width:none}
+  .compass{right:8px;bottom:8px;width:148px;padding:10px 12px}
+  .hovercard{display:none;pointer-events:none;padding:10px 12px;min-width:240px;z-index:10}
+  h3{margin:0 0 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff4d5}
+  .mono,.small{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .mono{font-size:11px;line-height:1.35;white-space:pre-wrap;color:#f6f2ff}
+  .small{font-size:11px;color:var(--muted)}
+  .title{position:fixed;left:18px;top:53px;z-index:7;font-family:Georgia,serif;letter-spacing:.18em;font-size:18px;color:#ffc98c;text-shadow:0 0 20px rgba(255,155,46,.15)}
+  .subtitle{position:fixed;left:19px;top:76px;z-index:7;font-size:10px;letter-spacing:.28em;color:#a7afc6;text-transform:uppercase}
+  .footerline{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px}
+  .badge,.pill,.pathchip{padding:2px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
+  .categoryRow,.objectRow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}
+  .swatch{width:12px;height:12px;border-radius:3px;box-shadow:0 0 8px rgba(255,255,255,.18)}
+  .catLabel,.objLabel{flex:1}
+  .catMeta,.objMeta{font-size:10px;color:#bfc6df}
+  .catBtn,.objBtn{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#fff;border-radius:10px;padding:4px 8px;font-size:10px;cursor:pointer}
+  .hoverTitle{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff4d5;margin-bottom:6px}
+  .hoverGrid{display:grid;grid-template-columns:84px 1fr;gap:5px 8px;font:11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d6daf2}
+  .vizToggle,.pathbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:8px}
+  .pathbar{justify-content:flex-start}
+  .notice{margin-top:8px;color:#c8cee7;font-size:10px;line-height:1.45}
+  @media (max-width: 1200px){.rightpanel,.compass{display:none}.bottomleft{left:8px;right:8px;width:auto;max-width:none}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="btn" id="resetBtn">Reset</div>
+  <div class="btn" id="backBtn">Back</div>
+  <div class="btn">Upload Blueprint JSON</div>
+  <div class="seedBox"><span class="small">Seed</span><input class="seedInput mono" id="seedInput" value="F1B49B1CB10D6FED"></div>
+  <div class="btn" id="applySeedBtn">Apply Seed</div>
+  <div class="btn" id="randomSeedBtn">Randomize</div>
+  <div class="btn" id="viewBtn">Current View: Neural Network</div>
+  <div class="btn" id="themeBtn">Theme: Dark</div>
+  <div class="btn" id="reticleBtn">Reticle: On</div>
+  <div class="btn" id="spinBtn">Spin: Right</div>
+  <div class="btn" id="phaseBtn">Phase: Neural</div>
+  <div class="btn" id="hubToggleBtn">HUD: Visible</div>
+</div>
+<div class="title">NEURAL-SYNTH</div>
+<div class="subtitle">neural network + voxel convergence / seed-bound category tracking</div>
+<canvas id="c"></canvas>
+
+<div class="leftpanel" id="leftPanel">
+  <h3>Unified View Status</h3>
+  <div class="mono" id="statusText"></div>
+  <div class="pathbar" id="pathBar"></div>
+  <div class="notice">Neural view keeps the centered thinker layout. Voxel Directory view switches to the brighter purple gridded registry front and preserves the shared path.</div>
+  <div class="notice"><span style="color:#fff4d5">Receipt Ledger</span><br><span class="mono" id="receiptLedger" style="display:block;max-height:96px;overflow:auto;white-space:pre-wrap"></span></div>
+</div>
+
+<div class="rightpanel" id="rightPanel">
+  <div>
+    <h3>Browser Hub</h3>
+    <div class="small" id="hubSubtext">Right-side browser panel locked. Every category has its own RGB identity traced back to the seed.</div>
+  </div>
+  <div class="vizToggle">
+    <span class="small">Visual Toggle</span>
+    <span class="pill" id="hubStatePill">VISIBLE</span>
+  </div>
+  <div><h3>Categories</h3><div id="categoryList"></div></div>
+  <div><h3>Objects</h3><div id="objectList"></div></div>
+  <div>
+    <h3>Panel Purpose</h3>
+    <div class="small" id="panelPurpose">Neural front = live transport fabric heading toward voxel grouping and cube matrix. Voxel front = sectioned directory browser heading toward the same voxel grouping and cube matrix end-state.</div>
+  </div>
+</div>
+
+<div class="compass" id="compassPanel">
+  <h3>Pole / Compass</h3>
+  <div class="small mono">hdg 129.7° SW
+lat -6.7
+pole -Z
+align OFFSET 0.884</div>
+</div>
+
+<div class="bottomleft" id="bottomPanel">
+  <div class="footerline">
+    <span class="badge">VALIDATOR</span><span>OK</span><span id="phaseText">phase=NEURAL</span><span class="badge" id="hubFooter">hud=visible</span><span class="badge" id="viewFooter">view=neural_network</span><span class="badge" id="seedFooter">seed=F1B49B1CB10D6FED</span><span class="badge" id="pathFooter">path=converging</span><span class="badge" id="depthFooter">depth=root</span>
+  </div>
+  <div class="notice" id="footerNotice">Both fronts are now staged toward the same convergence spine: neural_network -> voxel_grouping -> cube_matrix and voxel_directory -> voxel_grouping -> cube_matrix.</div>
+</div>
+
+<div class="hovercard" id="hoverCard">
+  <div class="hoverTitle" id="hoverTitle">object</div>
+  <div class="hoverGrid" id="hoverGrid"></div>
+</div>
+
+<script>
+(() => {
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const statusText = document.getElementById('statusText');
+const categoryList = document.getElementById('categoryList');
+const objectList = document.getElementById('objectList');
+const hoverCard = document.getElementById('hoverCard');
+const hoverTitle = document.getElementById('hoverTitle');
+const hoverGrid = document.getElementById('hoverGrid');
+const phaseBtn = document.getElementById('phaseBtn');
+const phaseText = document.getElementById('phaseText');
+const rightPanel = document.getElementById('rightPanel');
+const leftPanel = document.getElementById('leftPanel');
+const compassPanel = document.getElementById('compassPanel');
+const bottomPanel = document.getElementById('bottomPanel');
+const hubToggleBtn = document.getElementById('hubToggleBtn');
+const hubStatePill = document.getElementById('hubStatePill');
+const hubFooter = document.getElementById('hubFooter');
+const seedInput = document.getElementById('seedInput');
+const seedFooter = document.getElementById('seedFooter');
+const viewBtn = document.getElementById('viewBtn');
+const viewFooter = document.getElementById('viewFooter');
+const reticleBtn = document.getElementById('reticleBtn');
+const spinBtn = document.getElementById('spinBtn');
+const pathBar = document.getElementById('pathBar');
+const depthFooter = document.getElementById('depthFooter');
+const receiptLedger = document.getElementById('receiptLedger');
+
+let w=0,h=0,dpr=1;
+function resize(){ dpr=Math.min(window.devicePixelRatio||1,2); w=innerWidth; h=innerHeight; canvas.width=w*dpr; canvas.height=h*dpr; canvas.style.width=w+'px'; canvas.style.height=h+'px'; ctx.setTransform(dpr,0,0,dpr,0,0); if (typeof fitView === 'function') fitView(); }
+addEventListener('resize', resize);
+
+const TAU = Math.PI*2;
+function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function hashString(str){ let h = 2166136261 >>> 0; for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619);} return h>>>0; }
+function hslToHex(h,s,l){ s/=100; l/=100; const k=n=>(n+h/30)%12; const a=s*Math.min(l,1-l); const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1))); const toHex=x=>Math.round(255*x).toString(16).padStart(2,'0'); return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`; }
+function seededColor(name, seed){ return hslToHex((hashString(name + seed) % 360),72,62); }
+function hexToRgb(hex){ const h=hex.replace('#',''); return {r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)}; }
+function rgba(hex,a){ const {r,g,b}=hexToRgb(hex); return `rgba(${r},${g},${b},${a})`; }
+function randomHexSeed(){ const chars='0123456789ABCDEF'; let out=''; for(let i=0;i<16;i++) out += chars[Math.floor(Math.random()*chars.length)]; return out; }
+
+const categories = ['planner','critic','repair','memory','routes','receipts','archive','runtime'];
+let seedHex = 'F1B49B1CB10D6FED';
+let CATEGORY_COLORS = {};
+let phase = 'neural';
+let darkMode = true;
+let hovered = null;
+let focusedCategory = null;
+let focusedObjectId = null;
+let selectionSource = null;
+let hubVisible = true;
+let tNow = 0;
+let currentView = 'neural';
+let reticleOn = true;
+let spinMode = 'right';
+let spinAngle = 0;
+let lastFrameTime = 0;
+let zoom = 1, panX = 0, panY = 0, neuralZoom = 1, dragging=false, lx=0, ly=0;
+let shellRings=[], voxels=[], nodes=[], links=[], hoverPoints=[], sections=[], objects=[];
+let commEvents=[];
+const NODE_ROLES=['gateway','planner','critic','memory','router','receipt','archive','executor'];
+const MAX_RETRIES = 2;
+const ROLE_LINKS = {gateway:['planner','router','memory','executor'],planner:['critic','memory','router','receipt'],critic:['planner','receipt','archive'],memory:['planner','critic','archive','router'],router:['gateway','planner','executor','receipt','archive'],receipt:['planner','critic','archive'],archive:['memory','receipt'],executor:['router','receipt']};
+const INTENT_TABLE = {
+  gateway:['route_request','memory_pull','execute_request'],
+  planner:['plan','review','store','route_request','receipt_write'],
+  critic:['review','violation_report','archive_flag','receipt_write'],
+  memory:['memory_pull','memory_store','archive_pull','route_request'],
+  router:['route_request','handoff','receipt_write','archive_flag'],
+  receipt:['receipt_write','ack_emit','violation_emit'],
+  archive:['archive_flag','archive_store','receipt_write'],
+  executor:['execute_request','receipt_write']
+};
+const RECEIPT_LIMIT = 14;
+let receiptLog=[];
+let laneOwners = new Map();
+
+const center=()=>({x:w*0.50,y:h*0.54});
+const bgCenter=()=> currentView==='neural' ? center() : ({x:w*0.5,y:h*0.46});
+
+function currentDepth(){ return focusedObjectId ? 'object' : focusedCategory ? 'category' : 'root'; }
+function objectById(id){ return objects.find(o=>o.id===id) || null; }
+function objectCategoryById(id){ const o = objectById(id); return o ? o.category : null; }
+
+function rebuildFromSeed(){
+  const rand = mulberry32(parseInt(seedHex.slice(0,8),16) || 1);
+  CATEGORY_COLORS = Object.fromEntries(categories.map(c => [c, seededColor(c, seedHex)]));
+  seedInput.value = seedHex;
+  seedFooter.textContent = 'seed=' + seedHex;
+
+  // neural scene
+  shellRings=[]; for(let i=0;i<14;i++) shellRings.push({a:i/14*TAU, r:260-i*3});
+  voxels=[]; for(let i=0;i<900;i++){ const u=rand(), v=rand(), theta=TAU*u; let r=Math.pow(rand(),0.58); let x=Math.cos(theta)*r*150*(0.95+0.06*Math.sin(theta*3)); let y=(v*2-1)*r*142*(1.15+0.1*Math.cos(theta*2.2)); let z=Math.sin(theta)*r*110*(0.86+0.08*Math.sin(theta*5)); x += Math.max(0,x)*0.12; const cat = categories[i % categories.length]; voxels.push({x,y,z,size:1+rand()*1.8,phase:rand()*TAU,category:cat,load:+(0.1+rand()*0.9).toFixed(2),links:1+Math.floor(rand()*9),id:`${cat}_v_${i}`}); }
+  nodes=[]; for(let i=0;i<22;i++){ const a=i/22*TAU + rand()*0.15; const rr=60+rand()*145; const zz=(rand()*2-1)*80; const cat=categories[i%categories.length]; const role = NODE_ROLES[(i + categories.indexOf(cat)) % NODE_ROLES.length]; const authority = 1 + ((i + categories.indexOf(cat)) % 3); const queueCap = 2 + ((i + i%3) % 4); nodes.push({x:Math.cos(a)*rr,y:(rand()*2-1)*90,z:Math.sin(a)*rr*0.8+zz,label:`${cat}_${i}`,id:`${cat}_${i}`,category:cat,role,authority,queueCap,pulse:rand()*TAU,load:+(0.1+rand()*0.9).toFixed(2),receipts:Math.floor(rand()*6),links:0,pending:0,inbound:0,outbound:0,violations:0,acks:0,timeouts:0,retries:0,queueRejected:0,lastStatus:'idle',lastReason:'idle',intentTable:INTENT_TABLE[role]||[],receiptWrites:0,validatorBlocks:0,laneClaims:0}); }
+  links=[]; for(let i=0;i<50;i++){ let a=Math.floor(rand()*nodes.length), b=Math.floor(rand()*nodes.length); if(a===b) b=(b+1)%nodes.length; links.push([a,b,0.2+rand()*0.8]); }
+  nodes.forEach((n,idx)=> n.links = links.filter(([a,b])=>a===idx||b===idx).length);
+  receiptLog=[]; laneOwners = new Map();
+  commEvents = links.map((link,i)=>{
+    const [ia,ib,wg] = link;
+    const src = nodes[ia], dst = nodes[ib];
+    const allowed = (ROLE_LINKS[src.role]||[]).includes(dst.role);
+    return {phase:0,speed:0.20+rand()*0.34,strength:0.35+rand()*0.65,cooldown:rand()*1.8,pulse:rand()*TAU,state:'idle',source:ia,target:ib,allowed,authority:allowed ? 1 : 0,requestId:`REQ_${i}`,lastResult:'idle',lastReason:'idle',linger:0,retries:0,maxRetries:MAX_RETRIES};
+  });
+
+  // voxel directory sections + objects (preview11-style behavior)
+  sections=[]; objects=[];
+  const cols=4, rows=2, spacing=34, gap=70, tileCols=8, tileRows=8;
+  const sectionW=(tileCols-1)*spacing+40, sectionH=(tileRows-1)*spacing+52;
+  const totalW=cols*sectionW+(cols-1)*gap, totalH=rows*sectionH+(rows-1)*gap;
+  const startX=-totalW/2, startY=-totalH/2;
+  let idx=0;
+  categories.forEach((cat,sIdx)=>{
+    const cg=sIdx%cols, rg=Math.floor(sIdx/cols);
+    const ox=startX+cg*(sectionW+gap), oy=startY+rg*(sectionH+gap);
+    sections.push({name:cat,x:ox-20,y:oy-26,w:sectionW,h:sectionH,color:CATEGORY_COLORS[cat]});
+    for(let r=0;r<tileRows;r++) for(let c=0;c<tileCols;c++){
+      const id=`${cat}_${idx++}`;
+      objects.push({id,label:id,category:cat,x:ox+c*spacing,y:oy+r*spacing,size:14,load:+(0.1+rand()*0.9).toFixed(2),links:1+Math.floor(rand()*12),receipts:Math.floor(rand()*6),pulse:rand()*TAU});
+    }
+  });
+  renderLists(); updatePathBar(); fitView();
+}
+
+function renderLists(){
+  categoryList.innerHTML='';
+  categories.forEach(cat=>{
+    const row=document.createElement('div');
+    row.className='categoryRow';
+    row.innerHTML=`<div class="swatch" style="background:${CATEGORY_COLORS[cat]}"></div><div class="catLabel small">${cat}</div><div class="catMeta">64 tracked</div><button class="catBtn">focus</button>`;
+    row.querySelector('button').onclick=()=>{
+      focusedCategory = focusedCategory===cat ? null : cat;
+      focusedObjectId = null;
+      selectionSource = focusedCategory ? 'hub' : null;
+      renderLists(); updatePathBar();
+    };
+    categoryList.appendChild(row);
+  });
+
+  objectList.innerHTML='';
+  const listObjects = focusedCategory ? objects.filter(o=>o.category===focusedCategory) : objects.slice(0,18);
+  listObjects.slice(0,18).forEach(obj=>{
+    const row=document.createElement('div');
+    row.className='objectRow';
+    row.innerHTML=`<div class="swatch" style="background:${CATEGORY_COLORS[obj.category]}"></div><div class="objLabel small">${obj.id}</div><div class="objMeta">${obj.links} links</div><button class="objBtn">open</button>`;
+    row.querySelector('button').onclick=()=>{
+      focusedObjectId=obj.id;
+      if(selectionSource==='hub' && focusedCategory){} else { focusedCategory=null; }
+      selectionSource='hub-object';
+      renderLists(); updatePathBar();
+    };
+    objectList.appendChild(row);
+  });
+}
+
+function updatePathBar(){
+  pathBar.innerHTML='';
+  const parts=['root'];
+  const objectCat=focusedObjectId ? objectCategoryById(focusedObjectId) : null;
+  if(focusedCategory) parts.push(focusedCategory); else if(objectCat) parts.push(objectCat);
+  if(focusedObjectId) parts.push(focusedObjectId);
+  parts.forEach(p=>{ const el=document.createElement('div'); el.className='pathchip'; el.textContent=p; pathBar.appendChild(el); });
+  depthFooter.textContent='depth='+currentDepth();
+}
+
+function setHubVisible(next){
+  hubVisible = next;
+  [rightPanel,leftPanel,compassPanel,bottomPanel].forEach(el => el.classList.toggle('hidden', !hubVisible));
+  hubToggleBtn.textContent = 'HUD: ' + (hubVisible ? 'Visible' : 'Hidden');
+  hubStatePill.textContent = hubVisible ? 'VISIBLE' : 'HIDDEN';
+  hubFooter.textContent = 'hud=' + (hubVisible ? 'visible' : 'hidden');
+}
+
+function fitView(){
+  if(currentView==='voxel'){ zoom=Math.min(w/1200,h/760)*0.95; panX=0; panY=0; }
+  else { neuralZoom=Math.min(w/1400,h/900)*1.0; }
+}
+function worldToScreen(x,y){ return {x:w/2 + (x+panX)*zoom, y:h/2 + (y+panY)*zoom}; }
+function screenToWorld(x,y){ return {x:(x-w/2)/zoom - panX, y:(y-h/2)/zoom - panY}; }
+
+canvas.addEventListener('wheel', e=>{
+  e.preventDefault();
+  const factor=e.deltaY<0?1.12:0.89;
+  if(currentView==='voxel'){
+    const before=screenToWorld(e.clientX,e.clientY);
+    zoom=Math.max(0.28,Math.min(5.5,zoom*factor));
+    const after=screenToWorld(e.clientX,e.clientY);
+    panX += after.x-before.x; panY += after.y-before.y;
+  } else {
+    neuralZoom=Math.max(0.55,Math.min(3.2,neuralZoom*factor));
+  }
+},{passive:false});
+canvas.addEventListener('mousedown', e=>{ dragging=true; lx=e.clientX; ly=e.clientY; });
+addEventListener('mouseup', ()=> dragging=false);
+addEventListener('mousemove', e=>{
+  if(dragging && currentView==='voxel'){
+    panX += (e.clientX-lx)/zoom; panY += (e.clientY-ly)/zoom; lx=e.clientX; ly=e.clientY;
+  }
+  hovered = currentView==='voxel' ? pickIcon(e.clientX,e.clientY) : hitTestNeural(e.clientX,e.clientY);
+  if(hovered){
+    hoverCard.style.display='block';
+    hoverCard.style.left=Math.min(w-280,e.clientX+16)+'px';
+    hoverCard.style.top=Math.min(h-180,e.clientY+16)+'px';
+    hoverTitle.textContent=hovered.label || hovered.id;
+    hoverGrid.innerHTML=`<div>category</div><div>${hovered.category}</div><div>id</div><div>${hovered.id}</div><div>role</div><div>${hovered.role ?? 'n/a'}</div><div>authority</div><div>${hovered.authority ?? 'n/a'}</div><div>queue</div><div>${hovered.pending ?? 0}/${hovered.queueCap ?? 'n/a'}</div><div>links</div><div>${hovered.links ?? 'n/a'}</div><div>last</div><div>${hovered.lastStatus ?? 'idle'}</div><div>reason</div><div>${hovered.lastReason ?? 'idle'}</div><div>acks</div><div>${hovered.acks ?? 0}</div><div>viol</div><div>${hovered.violations ?? 0}</div><div>timeouts</div><div>${hovered.timeouts ?? 0}</div><div>receipts</div><div>${hovered.receipts ?? 'n/a'}</div><div>laneClaims</div><div>${hovered.laneClaims ?? 0}</div><div>intents</div><div>${(hovered.intentTable||[]).join(', ') || 'n/a'}</div><div>seedColor</div><div>${CATEGORY_COLORS[hovered.category]}</div>`;
+  } else hoverCard.style.display='none';
+});
+canvas.addEventListener('click', e=>{
+  const p = currentView==='voxel' ? pickIcon(e.clientX,e.clientY) : hitTestNeural(e.clientX,e.clientY);
+  if(!p) return;
+  focusedObjectId = p.id;
+  if(selectionSource==='hub' && focusedCategory){} else { focusedCategory = null; }
+  selectionSource='canvas';
+  renderLists(); updatePathBar();
+});
+
+
+function linkKey(a,b){ return a<b ? `${a}:${b}` : `${b}:${a}`; }
+function pushReceipt(entry){
+  receiptLog.unshift(entry);
+  if(receiptLog.length>RECEIPT_LIMIT) receiptLog.length = RECEIPT_LIMIT;
+  if(receiptLedger) receiptLedger.textContent = receiptLog.map(r=>`${r.kind} ${r.id} ${r.src}->${r.dst} ${r.reason}`).join('\n');
+}
+function pickIntent(src,dst){
+  const shared = (INTENT_TABLE[src.role]||[]).filter(x => (INTENT_TABLE[dst.role]||[]).includes(x) || x==='route_request' || x==='receipt_write');
+  return shared[0] || (INTENT_TABLE[src.role]||[])[0] || 'route_request';
+}
+function policyReason(src,dst,intent){
+  if(!(ROLE_LINKS[src.role]||[]).includes(dst.role)) return 'role_blocked';
+  if(!(INTENT_TABLE[src.role]||[]).includes(intent)) return 'intent_missing';
+  if(src.authority < 1) return 'authority_low';
+  return 'authority_ok';
+}
+function drawBgNeural(){
+  ctx.clearRect(0,0,w,h);
+  const g = ctx.createRadialGradient(w*0.5,h*0.5,40,w*0.5,h*0.5,Math.max(w,h)*0.55);
+  if(darkMode){ g.addColorStop(0,'rgba(180,70,255,0.08)'); g.addColorStop(0.3,'rgba(90,20,140,0.07)'); g.addColorStop(0.7,'rgba(0,0,0,0.0)'); g.addColorStop(1,'rgba(0,0,0,0.5)'); }
+  else { g.addColorStop(0,'rgba(205,190,225,0.35)'); g.addColorStop(1,'rgba(239,231,219,1)'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+}
+function drawBackgroundVoxel(){
+  const cx = w*0.5, cy = h*0.44;
+  const g=ctx.createRadialGradient(cx,cy,20,cx,cy,Math.max(w,h)*0.62);
+  if(darkMode){
+    g.addColorStop(0,'rgba(120,76,220,0.22)');
+    g.addColorStop(0.20,'rgba(84,43,170,0.22)');
+    g.addColorStop(0.42,'rgba(38,15,82,0.35)');
+    g.addColorStop(1,'rgba(2,3,8,1)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='rgba(154,94,255,0.11)';
+  } else {
+    g.addColorStop(0,'rgba(214,186,255,0.55)');
+    g.addColorStop(0.22,'rgba(196,160,248,0.42)');
+    g.addColorStop(0.46,'rgba(235,222,248,0.82)');
+    g.addColorStop(1,'rgba(244,238,250,1)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='rgba(132,92,190,0.14)';
+  }
+  for(let x=0;x<w;x+=24){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for(let y=0;y<h;y+=24){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+}
+function projectNeural(p,t){
+  const yaw=spinAngle, pitch=-0.38 + Math.sin(t*0.00016)*0.04;
+  let x=p.x,y=p.y,z=p.z;
+  let cx=Math.cos(yaw), sx=Math.sin(yaw);
+  let x1=x*cx-z*sx, z1=x*sx+z*cx;
+  let cy=Math.cos(pitch), sy=Math.sin(pitch);
+  let y2=y*cy-z1*sy, z2=y*sy+z1*cy;
+  const cam=520, s=(cam/(cam+z2+230))*neuralZoom, c=center();
+  return {x:c.x+x1*s,y:c.y+y2*s,s,z:z2};
+}
+function drawShell(t){
+  const c=center(); ctx.save(); ctx.translate(c.x,c.y);
+  for(let i=0;i<shellRings.length;i++){ const r=shellRings[i].r; ctx.beginPath(); ctx.strokeStyle=darkMode?`rgba(160,70,255,${0.05+i*0.005})`:`rgba(120,100,160,${0.08+i*0.005})`; ctx.lineWidth=1; const ry=0.24+Math.abs(Math.sin(shellRings[i].a+t*0.0002))*0.75; ctx.ellipse(0,0,r,r*ry,shellRings[i].a+spinAngle*0.55+t*0.00002*(i%2?1:-1),0,TAU); ctx.stroke(); }
+  ctx.restore();
+}
+function drawNeuralScene(t){
+  drawBgNeural();
+  drawShell(t);
+  hoverPoints=[];
+  const projectedNodes = nodes.map((n,i)=>({n,i,p:projectNeural(n,t)}));
+  const activeMap = new Map();
+  const packetDraw = [];
+
+  // decay runtime counters for display stability
+  for(const n of nodes){
+    n.pending = Math.max(0, n.pending * 0.92);
+    n.inbound = Math.max(0, n.inbound * 0.90);
+    n.outbound = Math.max(0, n.outbound * 0.90);
+  }
+
+  const focusBoost = focusedCategory || focusedObjectId ? 1.35 : 1.0;
+
+  for(let i=0;i<links.length;i++){
+    const [ia,ib,wg] = links[i];
+    const ev = commEvents[i];
+    if(!ev) continue;
+
+    ev.cooldown -= 0.016 * focusBoost;
+    if(ev.state==='idle' && ev.cooldown <= 0){
+      ev.phase = 0;
+      ev.speed = 0.18 + Math.random()*0.32;
+      ev.strength = 0.35 + Math.random()*0.65;
+      ev.source = Math.random() > 0.5 ? ia : ib;
+      ev.target = ev.source===ia ? ib : ia;
+      const src = nodes[ev.source];
+      const dst = nodes[ev.target];
+      ev.allowed = (ROLE_LINKS[src.role]||[]).includes(dst.role);
+      ev.requestId = `REQ_${i}_${Math.floor(Math.random()*9999)}`;
+      ev.intent = pickIntent(src,dst);
+      ev.lastReason = policyReason(src,dst,ev.intent);
+      const laneKey = linkKey(ev.source, ev.target);
+      const laneOwner = laneOwners.get(laneKey);
+      if(laneOwner && laneOwner!==ev.requestId){
+        ev.state='timeout'; ev.phase=1; ev.lastReason='lane_reserved'; src.lastStatus='waiting_lane'; src.lastReason='lane_reserved';
+      } else if(dst.pending >= dst.queueCap){
+        ev.state = 'violation';
+        ev.phase = 1;
+        ev.lastReason = 'queue_full';
+        dst.queueRejected += 1;
+        pushReceipt({kind:'DENY', id:ev.requestId, src:src.id, dst:dst.id, reason:ev.lastReason});
+        dst.violations += 1;
+        dst.lastStatus = 'violation';
+        dst.lastReason = 'queue_full';
+        src.lastStatus = 'violation_wait';
+        src.lastReason = 'queue_full';
+      } else {
+        laneOwners.set(laneKey, ev.requestId);
+        src.laneClaims += 1; dst.laneClaims += 1;
+        ev.state = 'request';
+        src.outbound += 1;
+        dst.pending += 1;
+        ev.authority = ev.allowed ? Math.min(src.authority, dst.authority) : 0;
+        src.lastStatus = 'request';
+        src.lastReason = ev.allowed ? 'dispatch' : 'role_check';
+        dst.lastStatus = 'pending';
+        dst.lastReason = ev.allowed ? 'awaiting' : 'role_check';
+      }
+    }
+
+    if(ev.state==='request'){
+      ev.phase += ev.speed * 0.016 * focusBoost;
+      if(ev.phase >= 1){
+        ev.phase = 1;
+        const src = nodes[ev.source], dst = nodes[ev.target];
+        if(ev.allowed){
+          const roll = Math.random();
+          ev.state = roll > 0.26 ? 'ack' : (roll > 0.12 ? 'timeout' : 'violation');
+          ev.lastReason = ev.state==='ack' ? 'authority_ok' : (ev.state==='timeout' ? 'await_timeout' : 'validator_block');
+        } else {
+          ev.state = Math.random() > 0.58 ? 'violation' : 'timeout';
+          ev.lastReason = ev.state==='violation' ? 'role_blocked' : 'no_route';
+        }
+        ev.linger = 0.16 + Math.random()*0.12;
+        dst.pending = Math.max(0, dst.pending - 1);
+        if(ev.state==='ack'){
+          dst.acks += 1;
+          dst.receipts += 1;
+          dst.lastStatus = 'ack';
+          dst.lastReason = ev.lastReason;
+          src.lastStatus = 'ack_wait';
+          src.lastReason = ev.lastReason;
+        } else if(ev.state==='violation'){
+          dst.violations += 1;
+          dst.lastStatus = 'violation';
+          dst.lastReason = ev.lastReason;
+          src.lastStatus = 'violation_wait';
+          src.lastReason = ev.lastReason;
+        } else {
+          dst.timeouts += 1;
+          dst.lastStatus = 'timeout';
+          dst.lastReason = ev.lastReason;
+          src.lastStatus = 'timeout_wait';
+          src.lastReason = ev.lastReason;
+        }
+      }
+    } else if(ev.state==='ack' || ev.state==='violation' || ev.state==='timeout'){
+      ev.phase -= ev.speed * 0.016 * (focusBoost * 0.92);
+      if(ev.phase <= 0){
+        ev.phase = 0;
+        const src = nodes[ev.source], dst = nodes[ev.target];
+        if(ev.state==='ack'){
+          src.lastStatus='ack'; dst.lastStatus='served';
+          src.lastReason='confirmed'; dst.lastReason='served';
+          ev.retries = 0;
+        }
+        else if(ev.state==='violation'){
+          src.lastStatus='violation'; dst.lastStatus='blocked';
+          src.lastReason=ev.lastReason; dst.lastReason=ev.lastReason;
+          ev.retries = 0;
+        }
+        else {
+          src.lastStatus='timeout'; dst.lastStatus='stalled';
+          src.lastReason='retrying'; dst.lastReason='stalled';
+          if(ev.retries < ev.maxRetries){
+            ev.retries += 1;
+            src.retries += 1;
+            ev.state = 'idle';
+            ev.cooldown = 0.18 + Math.random()*0.35;
+            continue;
+          } else {
+            ev.retries = 0;
+          }
+        }
+        ev.lastResult = ev.state;
+        ev.state = 'idle';
+        ev.cooldown = ev.lastResult==='ack' ? (0.65 + Math.random()*1.2) : (1.2 + Math.random()*2.2);
+      }
+    }
+
+    const a=projectedNodes[ia].p, b=projectedNodes[ib].p, cat=nodes[ia].category, color=CATEGORY_COLORS[cat];
+    const dim = focusedCategory && cat!==focusedCategory;
+    const stateBoost = ev.state==='request' ? ev.strength*0.18 : (ev.state==='ack' ? 0.24 : (ev.state==='violation' ? 0.22 : (ev.state==='timeout' ? 0.14 : 0)));
+    const baseAlpha = dim ? 0.03 : (0.06 + wg*0.08);
+    ctx.beginPath();
+    ctx.moveTo(a.x,a.y);
+    ctx.quadraticCurveTo((a.x+b.x)/2,(a.y+b.y)/2,b.x,b.y);
+    ctx.strokeStyle=rgba(color, Math.min(0.58, baseAlpha + stateBoost));
+    ctx.lineWidth=(dim?0.6:0.8) + wg*(ev.state==='idle'?0.55:1.05);
+    ctx.stroke();
+
+    if(ev.state!=='idle' && !dim){
+      const srcIndex = ev.source;
+      const dstIndex = ev.target;
+      activeMap.set(srcIndex, Math.max(activeMap.get(srcIndex)||0, ev.strength));
+      activeMap.set(dstIndex, Math.max(activeMap.get(dstIndex)||0, ev.strength*0.9));
+      packetDraw.push({a:projectedNodes[srcIndex].p,b:projectedNodes[dstIndex].p,t:ev.phase,strength:ev.strength,state:ev.state,source:srcIndex,target:dstIndex});
+      if(['ack','violation','timeout'].includes(ev.state) && ev.phase>=1){ laneOwners.delete(linkKey(ev.source, ev.target)); }
+    }
+  }
+
+  const pts=voxels.map(v=>({...projectNeural({x:v.x,y:v.y,z:v.z},t), v})).sort((a,b)=>a.z-b.z);
+  for(const p of pts){
+    const color=CATEGORY_COLORS[p.v.category], dim=focusedCategory && p.v.category!==p.v.category && false;
+    let local = 0;
+    for(const entry of projectedNodes){
+      if(entry.n.category!==p.v.category) continue;
+      const s = activeMap.get(entry.i) || 0;
+      if(!s) continue;
+      const d = Math.hypot(entry.p.x - p.x, entry.p.y - p.y);
+      if(d < 120) local = Math.max(local, s * (1 - d/120));
+    }
+    const dim2 = focusedCategory && p.v.category!==focusedCategory;
+    const size=p.v.size*p.s*(1.08+p.v.load*0.18);
+    const alphaBase = dim2 ? 0.06 : 0.60;
+    const alpha = Math.min(0.95, alphaBase + local*0.22);
+    ctx.fillStyle=rgba(color, alpha);
+    ctx.fillRect(p.x-size*0.5,p.y-size*0.5,size,size);
+    if(local>0.05 && !dim2){
+      ctx.strokeStyle = rgba(color, Math.min(0.82, 0.14 + local*0.32));
+      ctx.lineWidth = 0.8;
+      ctx.strokeRect(p.x-size*0.5,p.y-size*0.5,size,size);
+    }
+  }
+
+  for(const pkt of packetDraw){
+    const mx = pkt.a.x + (pkt.b.x - pkt.a.x) * pkt.t;
+    const my = pkt.a.y + (pkt.b.y - pkt.a.y) * pkt.t;
+    const dx = pkt.b.x - pkt.a.x;
+    const dy = pkt.b.y - pkt.a.y;
+    const len = Math.max(0.001, Math.hypot(dx,dy));
+    const ux = dx / len;
+    const uy = dy / len;
+    const zoomNorm = Math.max(0, Math.min(1, (neuralZoom - 0.55) / (3.2 - 0.55)));
+    const alphaScale = 1.0 - zoomNorm * 0.42;
+    const beadScale = Math.max(0.46, Math.min(1.08, neuralZoom * 0.72));
+    const beadL = (2.5 + pkt.strength * 0.5) * beadScale;
+    const beadW = (0.9 + pkt.strength * 0.16) * beadScale;
+
+    ctx.save();
+    ctx.lineCap = 'round';
+    const trailCol = pkt.state==='request' ? `rgba(255,255,255,${((0.04 + pkt.strength*0.015) * alphaScale).toFixed(3)})` : (pkt.state==='ack' ? `rgba(255,228,120,${((0.05 + pkt.strength*0.02) * alphaScale).toFixed(3)})` : (pkt.state==='violation' ? `rgba(255,210,210,${((0.05 + pkt.strength*0.018) * alphaScale).toFixed(3)})` : `rgba(220,226,235,${((0.035 + pkt.strength*0.012) * alphaScale).toFixed(3)})`));
+    ctx.strokeStyle = trailCol;
+    ctx.lineWidth = Math.max(0.16, beadW * 0.22);
+    ctx.beginPath();
+    ctx.moveTo(mx - ux*beadL*1.35, my - uy*beadL*1.35);
+    ctx.lineTo(mx - ux*beadL*0.48, my - uy*beadL*0.48);
+    ctx.stroke();
+
+    ctx.translate(mx, my);
+    ctx.rotate(Math.atan2(dy, dx));
+
+    const bodyCols = pkt.state==='request'
+      ? ['rgba(236,240,246,' + (0.48 * alphaScale).toFixed(3) + ')','rgba(247,249,252,' + (0.62 * alphaScale).toFixed(3) + ')','rgba(214,221,230,' + (0.46 * alphaScale).toFixed(3) + ')']
+      : pkt.state==='ack'
+      ? ['rgba(255,236,180,' + (0.42 * alphaScale).toFixed(3) + ')','rgba(255,232,138,' + (0.56 * alphaScale).toFixed(3) + ')','rgba(226,200,88,' + (0.40 * alphaScale).toFixed(3) + ')']
+      : pkt.state==='violation'
+      ? ['rgba(255,234,234,' + (0.46 * alphaScale).toFixed(3) + ')','rgba(255,214,214,' + (0.56 * alphaScale).toFixed(3) + ')','rgba(246,182,182,' + (0.40 * alphaScale).toFixed(3) + ')']
+      : ['rgba(226,231,238,' + (0.36 * alphaScale).toFixed(3) + ')','rgba(232,236,244,' + (0.42 * alphaScale).toFixed(3) + ')','rgba(198,205,214,' + (0.34 * alphaScale).toFixed(3) + ')'];
+
+    const glassGrad = ctx.createLinearGradient(-beadL*0.92, -beadW*0.18, beadL*0.88, beadW*0.22);
+    glassGrad.addColorStop(0.00, bodyCols[0]);
+    glassGrad.addColorStop(0.55, bodyCols[1]);
+    glassGrad.addColorStop(1.00, bodyCols[2]);
+
+    ctx.fillStyle = glassGrad;
+    ctx.beginPath();
+    ctx.moveTo(beadL * 0.82, 0);
+    ctx.lineTo(beadL * 0.18, beadW * 0.72);
+    ctx.lineTo(-beadL * 0.46, beadW * 0.52);
+    ctx.lineTo(-beadL * 0.82, 0);
+    ctx.lineTo(-beadL * 0.46, -beadW * 0.52);
+    ctx.lineTo(beadL * 0.18, -beadW * 0.72);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.08 * alphaScale).toFixed(3) + ')';
+    ctx.lineWidth = 0.2;
+    ctx.stroke();
+
+    ctx.fillStyle = 'rgba(255,255,255,' + (0.20 * alphaScale).toFixed(3) + ')';
+    ctx.beginPath();
+    ctx.moveTo(beadL * 0.06, -beadW * 0.10);
+    ctx.lineTo(beadL * 0.18, -beadW * 0.06);
+    ctx.lineTo(beadL * 0.06, 0);
+    ctx.lineTo(-beadL * 0.04, -beadW * 0.02);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  for(let i=0;i<projectedNodes.length;i++){
+    const {n,p} = projectedNodes[i];
+    const color=CATEGORY_COLORS[n.category], dim=focusedCategory && n.category!==focusedCategory;
+    const comm = activeMap.get(i) || 0;
+    const pulse=0.32+0.18*Math.sin(t*0.0014+n.pulse);
+    const r=2.0+pulse*0.8 + comm*1.6;
+    ctx.beginPath();
+    ctx.fillStyle=rgba(color, dim ? 0.16 : (0.72 + comm*0.18));
+    ctx.shadowBlur=dim?0:(6 + comm*10);
+    ctx.shadowColor=rgba(color,0.70);
+    ctx.arc(p.x,p.y,r,0,TAU);
+    ctx.fill();
+    ctx.shadowBlur=0;
+    hoverPoints.push({x:p.x,y:p.y,r:10,label:n.label,id:n.id,category:n.category,role:n.role,authority:n.authority,queueCap:n.queueCap,load:n.load,receipts:n.receipts,links:n.links,pending:Math.round(n.pending),acks:n.acks,violations:n.violations,timeouts:n.timeouts,lastStatus:n.lastStatus,lastReason:n.lastReason});
+  }
+
+  if(reticleOn){ const c=center(); ctx.strokeStyle=darkMode?'rgba(255,255,255,.35)':'rgba(60,60,70,.28)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(c.x,c.y,18,0,TAU); ctx.stroke(); ctx.beginPath(); ctx.arc(c.x,c.y,30+Math.sin(t*0.002)*2,0,TAU); ctx.stroke(); ctx.beginPath(); ctx.moveTo(c.x-12,c.y); ctx.lineTo(c.x+12,c.y); ctx.moveTo(c.x,c.y-12); ctx.lineTo(c.x,c.y+12); ctx.stroke(); }
+}
+function hitTestNeural(mx,my){ let best=null,bestD=1e9; for(const p of hoverPoints){ const d=Math.hypot(mx-p.x,my-p.y); if(d<p.r && d<bestD){ best=p; bestD=d; } } return best; }
+
+function pickIcon(sx,sy){ let best=null,bestD=1e9; for(const o of objects){ if(selectionSource==='hub' && focusedCategory && o.category!==focusedCategory) continue; const p=worldToScreen(o.x,o.y), d=Math.hypot(p.x-sx,p.y-sy); const radius=Math.max(10,o.size*zoom*0.9); if(d<radius && d<bestD){ best=o; bestD=d; } } return best; }
+function drawVoxelDirectory(t){
+  drawBackgroundVoxel();
+  for(const s of sections){ if(selectionSource==='hub' && focusedCategory && s.name!==focusedCategory) continue; const p=worldToScreen(s.x,s.y), ww=s.w*zoom, hh=s.h*zoom; ctx.strokeStyle=rgba(s.color,0.48); ctx.lineWidth=1.2; ctx.strokeRect(p.x,p.y,ww,hh); ctx.fillStyle='rgba(255,244,213,0.92)'; ctx.font=`${Math.max(10,11*zoom)}px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace`; ctx.fillText(s.name,p.x+8,p.y-8); }
+  for(const o of objects){ if(selectionSource==='hub' && focusedCategory && o.category!==focusedCategory) continue; const p=worldToScreen(o.x,o.y); const active=(hovered&&hovered.id===o.id)||(focusedObjectId===o.id); const pulse=0.75+0.25*Math.sin(tNow*0.003+o.pulse); const sz=o.size*zoom*(active?1.35:1.0)*pulse, depth=Math.max(2,sz*0.24), color=CATEGORY_COLORS[o.category]; ctx.beginPath(); ctx.moveTo(p.x-sz/2,p.y-sz/2); ctx.lineTo(p.x+sz/2,p.y-sz/2); ctx.lineTo(p.x+sz/2+depth,p.y-sz/2-depth); ctx.lineTo(p.x-sz/2+depth,p.y-sz/2-depth); ctx.closePath(); ctx.fillStyle=rgba(color,active?0.90:0.72); ctx.fill(); ctx.beginPath(); ctx.moveTo(p.x+sz/2,p.y-sz/2); ctx.lineTo(p.x+sz/2,p.y+sz/2); ctx.lineTo(p.x+sz/2+depth,p.y+sz/2-depth); ctx.lineTo(p.x+sz/2+depth,p.y-sz/2-depth); ctx.closePath(); ctx.fillStyle='rgba(20,24,40,0.68)'; ctx.fill(); ctx.fillStyle=rgba(color,active?1.0:0.84); ctx.fillRect(p.x-sz/2,p.y-sz/2,sz,sz); }
+  if(reticleOn){ const cx=w/2, cy=h/2; ctx.strokeStyle='rgba(240,240,255,0.22)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(cx,cy,22,0,TAU); ctx.stroke(); ctx.beginPath(); ctx.moveTo(cx-12,cy); ctx.lineTo(cx+12,cy); ctx.moveTo(cx,cy-12); ctx.lineTo(cx,cy+12); ctx.stroke(); }
+}
+
+function updateStatus(){
+  const packetStats = commEvents.reduce((acc,ev)=>{ if(ev.state==='request') acc.live += 1; if(ev.lastResult==='ack') acc.acks += 1; else if(ev.lastResult==='violation') acc.violations += 1; else if(ev.lastResult==='timeout') acc.timeouts += 1; return acc; }, {live:0,acks:0,violations:0,timeouts:0});
+  const reservedLanes = laneOwners.size;
+  statusText.textContent = `front = ${currentView}\nphase = ${phase.toUpperCase()}\ntheme = ${darkMode ? 'dark' : 'light'}\nreticle = ${reticleOn ? 'on' : 'off'}\nspin = ${spinMode}\ndepth = ${currentDepth()}\nhovered = ${hovered ? hovered.id : 'none'}\nfocusedCategory = ${focusedCategory || 'none'}\nfocusedObject = ${focusedObjectId || 'none'}\nselectionSource = ${selectionSource || 'none'}\nsections = ${sections.length}\nobjects = ${objects.length}\nnodes = ${nodes.length}\nlivePackets = ${packetStats.live}\nacks = ${packetStats.acks}  violations = ${packetStats.violations}  timeouts = ${packetStats.timeouts}\n\nNeural front now runs request, ack, violation, timeout, queue pressure, and retry behavior with role-scoped nodes, while the voxel front keeps the brighter purple gridded directory mode and shared path.`;
+}
+
+// controls
+hubToggleBtn.onclick = ()=> setHubVisible(!hubVisible);
+document.getElementById('themeBtn').onclick = ()=> { darkMode = !darkMode; document.getElementById('themeBtn').textContent = 'Theme: ' + (darkMode ? 'Dark' : 'Light'); };
+reticleBtn.onclick = ()=> { reticleOn = !reticleOn; reticleBtn.textContent = 'Reticle: ' + (reticleOn ? 'On' : 'Off'); };
+spinBtn.onclick = ()=> {
+  spinMode = spinMode==='right' ? 'left' : spinMode==='left' ? 'off' : 'right';
+  spinBtn.textContent = 'Spin: ' + (spinMode==='right' ? 'Right' : spinMode==='left' ? 'Left' : 'Off');
+};
+document.getElementById('resetBtn').onclick = ()=> { focusedCategory=null; focusedObjectId=null; selectionSource=null; renderLists(); updatePathBar(); fitView(); };
+document.getElementById('backBtn').onclick = ()=> { if(focusedObjectId){ focusedObjectId=null; if(selectionSource!=='hub') focusedCategory=null; if(selectionSource==='canvas') selectionSource=null; } else if(focusedCategory){ focusedCategory=null; selectionSource=null; } renderLists(); updatePathBar(); };
+document.getElementById('applySeedBtn').onclick = ()=> { const next=(seedInput.value||'').trim().toUpperCase(); if(!next) return; seedHex=next; focusedCategory=null; focusedObjectId=null; selectionSource=null; rebuildFromSeed(); };
+document.getElementById('randomSeedBtn').onclick = ()=> { seedHex=randomHexSeed(); focusedCategory=null; focusedObjectId=null; selectionSource=null; rebuildFromSeed(); };
+viewBtn.onclick = ()=> { currentView = currentView==='neural' ? 'voxel' : 'neural'; viewBtn.textContent = 'Current View: ' + (currentView==='neural' ? 'Neural Network' : 'Voxel Directory'); viewFooter.textContent = 'view=' + currentView; document.getElementById('hubSubtext').textContent = currentView==='neural' ? 'Right-side browser panel locked. Every category has its own RGB identity traced back to the seed.' : 'Voxel directory uses the brighter purple gridded front while the side hub preserves shared category and object path state.'; document.getElementById('panelPurpose').textContent = currentView==='neural' ? 'Neural front = live transport fabric heading toward voxel grouping and cube matrix. Voxel front = sectioned directory browser heading toward the same voxel grouping and cube matrix end-state.' : 'Voxel front = sectioned cube directory. Hub category focus isolates sections; object open preserves shared path state across both fronts.'; document.getElementById('footerNotice').textContent = currentView==='neural' ? 'Neural Network is the live transport path toward voxel grouping and cube matrix.' : 'Voxel Directory is the sectioned registry path toward voxel grouping and cube matrix.'; fitView(); };
+phaseBtn.onclick = ()=> { phase = phase === 'neural' ? 'voxel_grouping' : phase === 'voxel_grouping' ? 'cube_matrix' : 'neural'; phaseBtn.textContent = 'Phase: ' + (phase === 'neural' ? 'Neural' : phase === 'voxel_grouping' ? 'Voxel Grouping' : 'Cube Matrix'); phaseText.textContent = 'phase=' + phase.toUpperCase(); };
+
+function frame(t){
+  const dt = lastFrameTime ? Math.min(0.05, (t - lastFrameTime) / 1000) : 0.016;
+  lastFrameTime = t;
+  tNow=t;
+  const zoomSpinScale = 1 / Math.max(0.7, neuralZoom);
+  const spinStep = 0.17 * zoomSpinScale;
+  if(spinMode==='right') spinAngle += dt * spinStep;
+  else if(spinMode==='left') spinAngle -= dt * spinStep;
+  if(currentView==='neural') drawNeuralScene(t); else drawVoxelDirectory(t);
+  updateStatus();
+  requestAnimationFrame(frame);
+}
+resize(); rebuildFromSeed(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
