@@ -126,7 +126,7 @@ That gives the engine a 3D-feeling spatial surface without requiring a heavyweig
 
 ![Iteration 11 Demo](images/Image6.jpeg)
 
-Fully RGB Customizeable with both way to reproducible seed, also both 'Voxel Directory' and 'Neural-Synth' are in sync. 
+Fully RGB Customizeable with both way reproducible seed, also both 'Voxel Directory' and 'Neural-Synth' are in sync. 
 
 ## Controls
 
