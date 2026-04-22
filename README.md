@@ -18,6 +18,27 @@
   <a href="https://www.buymeacoffee.com/YOUR_HANDLE"><img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=000000"></a>
 </p>
 
+## 🔐 Built on ARC-Core
+
+> **[ARC-Core](https://github.com/GareBear99/ARC-Core)** is the authority / event / receipt kernel that this engine is built on. Every grid mutation, module attachment, blueprint load, and execution step is an ARC-Core-shaped event with a receipt. The engine's deterministic-simulation guarantee derives from ARC-Core's event-sourcing discipline.
+
+| Engine layer | ARC-Core pattern |
+|---|---|
+| Blueprint loading (shell / module) | Signed receipt per load — blueprint hash bound to receipt |
+| Grid mutations (cell, actor, layer) | Append-only event log |
+| Module attachment (ship / scanner / HUD) | Authority-gated events |
+| Deterministic simulation loop | Replay state by re-applying the event log |
+| Save/load files | Event log + snapshot, receipt-verified on load |
+| Voxel Directory + Neural-Synth sync | Shared event chain between both subsystems |
+| Audit trail | `ARC_CORE_AUDIT_v44.txt` and iteration audits track receipt lineage |
+
+Related ARC repos:
+
+- [ARC-Core](https://github.com/GareBear99/ARC-Core) — authority / event / receipt kernel *(backbone of this engine)*
+- [Seeded-Universe-Recreation-Engine](https://github.com/GareBear99/Seeded-Universe-Recreation-Engine) — sibling seed-first simulation project on the same backbone
+- [arc-lucifer-cleanroom-runtime](https://github.com/GareBear99/arc-lucifer-cleanroom-runtime) — deterministic kernel direction
+- [ARC-Neuron-LLMBuilder](https://github.com/GareBear99/ARC-Neuron-LLMBuilder) — governed AI build loop (same author, same doctrine)
+
 ## What this is
 
 Synth Grid Engine is a math-first world runtime where shell geometry, module layout, and deterministic execution all share the same blueprint-driven foundation.
