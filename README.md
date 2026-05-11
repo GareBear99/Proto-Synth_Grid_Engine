@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://github.com/sponsors/GareBear99"><img alt="GitHub Sponsors" src="https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors"></a>
-  <a href="https://www.buymeacoffee.com/YOUR_HANDLE"><img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=000000"></a>
+
 </p>
 
 ## 🔐 Built on ARC-Core
