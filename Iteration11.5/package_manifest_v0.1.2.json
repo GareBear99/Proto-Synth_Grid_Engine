@@ -1,0 +1,47 @@
+{
+  "name": "Voxel Sync Lab",
+  "package": "Proto-Synth Grid Engine / Iteration 11.5",
+  "version": "0.1.2",
+  "release_type": "public-facing standalone HTML demo",
+  "entrypoints": [
+    "Iteration11.5/index.html",
+    "Iteration11.5/voxel_sync_lab.html"
+  ],
+  "screenshot": "Iteration11.5/images/voxel_sync_lab_iteration_11_5_current.jpeg",
+  "root_screenshot": "images/Image8.jpeg",
+  "requires_server": false,
+  "features": [
+    "locked canonical tile/room/cube/neural IDs",
+    "voxel grouping board",
+    "cube matrix mirror",
+    "micro ARC-Room mesh intake viewport",
+    "Stonewalker-style entity overlay",
+    "live Neural Synth entity dot matrix",
+    "tile registry and inspector",
+    "scene JSON receipt export",
+    "built-in docs overlay"
+  ],
+  "lock_rule": "No independent tiles. Macro tile, cube matrix cell, micro room viewport, mesh entities, and neural dot cluster share one canonical ID.",
+  "updated_utc": "2026-05-17T05:17:53Z",
+  "iteration": "11.5",
+  "package_role": "Proto-Synth Grid Engine synchronized voxel / micro-room public demo package",
+  "arc_room_reference": "https://github.com/GareBear99/ARC-Room",
+  "micro_tile_room_role": "Each voxel tile acts as an ARC-Room-style tactical mesh object intake lab with synced Stonewalker entities and Neural Synth dots.",
+  "authority_doctrine": "No independent tiles. tile_id, room_id, cube_id, neural_id, entity set, and border gates share one canonical ID spine.",
+  "border_linking_authority_gates": [
+    "locked_wall",
+    "authorized_link",
+    "pending_link",
+    "rejected_link",
+    "open_passage",
+    "sealed_passage",
+    "shared_entity_crossing",
+    "shared_neural_communication",
+    "authority_receipt"
+  ],
+  "docs": [
+    "Iteration11.5/README.md",
+    "docs/VOXEL_SYNC_LAB_ITERATION_11_5_v0_1_2.md",
+    "RELEASE_NOTES_v0.1.2.md"
+  ]
+}

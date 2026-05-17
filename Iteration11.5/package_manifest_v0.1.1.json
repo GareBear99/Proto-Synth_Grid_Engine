@@ -1,0 +1,26 @@
+{
+  "name": "Voxel Sync Lab",
+  "package": "Proto-Synth Grid Engine / Iteration 11.5",
+  "version": "0.1.1",
+  "release_type": "public-facing standalone HTML demo",
+  "entrypoints": [
+    "Iteration11.5/index.html",
+    "Iteration11.5/voxel_sync_lab.html"
+  ],
+  "screenshot": "Iteration11.5/images/voxel_sync_lab_iteration_11_5_current.jpeg",
+  "root_screenshot": "images/Image8.jpeg",
+  "requires_server": false,
+  "features": [
+    "locked canonical tile/room/cube/neural IDs",
+    "voxel grouping board",
+    "cube matrix mirror",
+    "micro ARC-Room mesh intake viewport",
+    "Stonewalker-style entity overlay",
+    "live Neural Synth entity dot matrix",
+    "tile registry and inspector",
+    "scene JSON receipt export",
+    "built-in docs overlay"
+  ],
+  "lock_rule": "No independent tiles. Macro tile, cube matrix cell, micro room viewport, mesh entities, and neural dot cluster share one canonical ID.",
+  "updated_utc": "2026-05-17T05:17:53Z"
+}

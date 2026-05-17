@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voxel Sync Lab Scene Receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "app",
+    "version",
+    "created",
+    "seed",
+    "selectedTileId",
+    "state"
+  ],
+  "properties": {
+    "schema": {
+      "const": "voxel-sync-lab.scene.v0.1"
+    },
+    "app": {
+      "const": "Voxel Sync Lab"
+    },
+    "version": {
+      "type": "string"
+    },
+    "created": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "selectedTileId": {
+      "type": "string"
+    },
+    "selectedEntityId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lock_rule": {
+      "type": "string"
+    },
+    "state": {
+      "type": "object"
+    }
+  }
+}
